@@ -13,6 +13,7 @@
   <depend package="roscpp"/>
   <depend package="nav_msgs"/>
   <depend package="gmapping"/>
+  <depend package="costmap_2d"/>
 </package>
 
 
