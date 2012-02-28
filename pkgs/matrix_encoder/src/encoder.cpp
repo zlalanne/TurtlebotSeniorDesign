@@ -3,7 +3,7 @@
 //#include "slam_gmapping.h"
 #include "nav_msgs/MapMetaData.h"
 //#include "gmapping/include/gmapping/grid/map.h"
-#include "matrix_encoder.h"
+#include "encoder.h"
 
 /* 
  * this code should create a node called encoder that subscribes to whatever to
