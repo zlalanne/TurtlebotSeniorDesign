@@ -1,0 +1,10 @@
+<launch>
+
+  <!--- run the existing gmapping demo -->
+  <include file="$(find turtlebot_navigation)/gmapping_demo.launch" />
+
+  <!--- Run our encoder node -->
+  <node pkg="matrix_encoder" type="encoder" respawn="false" name="matrix_encoder" output="screen">
+  </node>
+
+</launch>
