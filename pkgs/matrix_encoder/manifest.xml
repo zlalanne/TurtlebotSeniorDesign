@@ -14,6 +14,21 @@
   <depend package="nav_msgs"/>
   <depend package="gmapping"/>
   <depend package="costmap_2d"/>
+  <depend package="tf"/>
+
+  <depend package="rosconsole"/>
+  <depend package="move_base_msgs"/>
+  <depend package="geometry_msgs"/>
+  <depend package="visualization_msgs"/>
+  <depend package="actionlib"/>
+  <depend package="nav_core"/>
+  <depend package="pluginlib"/>
+  <depend package="roslib"/>
+  <depend package="rosmsg"/>
+  <depend package="rostopic"/>
+  <depend package="std_srvs"/>
+  <depend package="dynamic_reconfigure"/>
+
 </package>
 
 

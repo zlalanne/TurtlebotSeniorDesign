@@ -19,8 +19,6 @@ ros/ros.h
 /home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/src/ros/ros.h
 std_msgs/String.h
 /home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/src/std_msgs/String.h
-nav_msgs/MapMetaData.h
-/home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/src/nav_msgs/MapMetaData.h
 matrix_encoder/encoder.h
 /home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/src/matrix_encoder/encoder.h
 

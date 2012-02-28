@@ -1,8 +1,5 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
-//#include "slam_gmapping.h"
-#include "nav_msgs/MapMetaData.h"
-//#include "gmapping/include/gmapping/grid/map.h"
 #include "matrix_encoder/encoder.h"
 
 /* 
@@ -13,7 +10,8 @@
 namespace matrix_encoder {
 
    MatrixEncoder::MatrixEncoder(std::string name, tf::TransformListener& tf) :
-      tf_(tf) {
+   tf_(tf), encoder_costmap_ros(NULL) {
+
 
    ros::NodeHandle nh;   // move_base also has a private node handler private_nh
 
