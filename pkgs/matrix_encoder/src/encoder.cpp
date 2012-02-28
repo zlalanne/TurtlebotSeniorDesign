@@ -3,7 +3,7 @@
 //#include "slam_gmapping.h"
 #include "nav_msgs/MapMetaData.h"
 //#include "gmapping/include/gmapping/grid/map.h"
-#include "matrix_encoder.h"
+#include "matrix_encoder/encoder.h"
 
 /* 
  * this code should create a node called encoder that subscribes to whatever to
@@ -14,10 +14,14 @@ namespace matrix_encoder {
 
    MatrixEncoder::MatrixEncoder(std::string name, tf::TransformListener& tf) :
       tf_(tf) {
+
+   ros::NodeHandle nh;   // move_base also has a private node handler private_nh
+
   
    // create the ros wrapper for the encoder's costmap... and initialize a pointer we'll use with the underlying map
    encoder_costmap_ros = new costmap_2d::Costmap2DROS("encoder_costmap", tf_);
    encoder_costmap_ros->pause(); // prevent the costmap from updating
+   encoder_costmap_ros->start(); // start updating the costmap
 
    }
 }
