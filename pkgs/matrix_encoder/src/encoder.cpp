@@ -1,7 +1,11 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "matrix_encoder/encoder.h"
+#include <iostream>
+#include <fstream>
+#include <unistd.h>
 
+using namespace std;
 
 /* 
  * this code should create a node called encoder that subscribes to whatever to
@@ -22,7 +26,23 @@ namespace matrix_encoder {
    encoder_costmap_ros->pause(); // prevent the costmap from updating
    encoder_costmap_ros->start(); // start updating the costmap
    encoder_costmap_ros->getCostmapCopy(costmap);
-   charArray = costmap.getCharMap();  
+   charArray = costmap.getCharMap();
+   unsigned int numXcells = encoder_costmap_ros->getSizeInCellsX();
+   unsigned int numYcells = encoder_costmap_ros->getSizeInCellsY();
+  
+   ofstream myfile;
+   myfile.open("Map.txt");
+   for (int j = 0; j < 50; j++) {
+      for(int i = 0; i < (numXcells * numYcells); i++){
+         myfile << charArray[i];
+      }
+      myfile << endl << endl;
+      // delay
+      sleep(5000); // time to wait in msec      
+   }
+
+
+   myfile.close();
    }
 }
 
