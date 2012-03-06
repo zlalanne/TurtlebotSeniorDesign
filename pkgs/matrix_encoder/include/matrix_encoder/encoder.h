@@ -15,5 +15,7 @@ namespace matrix_encoder {
       private:
          tf::TransformListener& tf_;
          costmap_2d::Costmap2DROS* encoder_costmap_ros;
+         costmap_2d::Costmap2D* costmap; // The underlying costmap to update
+         unsigned char* charArray;  // pointer to the underlying unsigned char array used as the costmap
    };
 };

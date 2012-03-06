@@ -2,6 +2,7 @@
 #include "std_msgs/String.h"
 #include "matrix_encoder/encoder.h"
 
+
 /* 
  * this code should create a node called encoder that subscribes to whatever to
  * whatever topics necessary to gather information about the robot's position,   * orientation, and nearby obstacles.
@@ -10,7 +11,7 @@
 namespace matrix_encoder {
 
    MatrixEncoder::MatrixEncoder(std::string name, tf::TransformListener& tf) :
-   tf_(tf), encoder_costmap_ros(NULL) {
+   tf_(tf), encoder_costmap_ros(NULL), charArray(NULL) {
 
 
    ros::NodeHandle nh;   // move_base also has a private node handler private_nh
@@ -20,7 +21,8 @@ namespace matrix_encoder {
    encoder_costmap_ros = new costmap_2d::Costmap2DROS("encoder_costmap", tf_);
    encoder_costmap_ros->pause(); // prevent the costmap from updating
    encoder_costmap_ros->start(); // start updating the costmap
-
+   encoder_costmap_ros.getCostmapCopy(costmap);
+   charArray = costmap.getCharMap();  
    }
 }
 
