@@ -32,10 +32,10 @@ CMAKE_COMMAND = /usr/bin/cmake
 RM = /usr/bin/cmake -E remove -f
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder
+CMAKE_SOURCE_DIR = /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build
+CMAKE_BINARY_DIR = /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/encoder.dir/depend.make
@@ -87,11 +87,11 @@ CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/ros_comm/utilitie
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/ros_comm/utilities/message_filters/manifest.xml
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/geometry/tf/manifest.xml
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/common/yaml_cpp/manifest.xml
-CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/navigation/map_server/manifest.xml
+CMakeFiles/encoder.dir/src/encoder.o: /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/navigation/map_server/manifest.xml
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/slam_gmapping/gmapping/manifest.xml
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/eigen/manifest.xml
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/laser_pipeline/laser_geometry/manifest.xml
-CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/navigation/voxel_grid/manifest.xml
+CMakeFiles/encoder.dir/src/encoder.o: /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/navigation/voxel_grid/manifest.xml
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/common_msgs/visualization_msgs/manifest.xml
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/perception_pcl/cminpack/manifest.xml
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/perception_pcl/flann/manifest.xml
@@ -104,11 +104,11 @@ CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/nodelet_core/node
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/nodelet_core/nodelet_topic_tools/manifest.xml
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/driver_common/dynamic_reconfigure/manifest.xml
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/perception_pcl/pcl_ros/manifest.xml
-CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/navigation/costmap_2d/manifest.xml
+CMakeFiles/encoder.dir/src/encoder.o: /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/navigation/costmap_2d/manifest.xml
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/common_msgs/actionlib_msgs/manifest.xml
-CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/navigation/move_base_msgs/manifest.xml
+CMakeFiles/encoder.dir/src/encoder.o: /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/navigation/move_base_msgs/manifest.xml
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/common/actionlib/manifest.xml
-CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/navigation/nav_core/manifest.xml
+CMakeFiles/encoder.dir/src/encoder.o: /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/navigation/nav_core/manifest.xml
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/ros_comm/messages/std_srvs/manifest.xml
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/ros_comm/messages/rosgraph_msgs/msg_gen/generated
@@ -128,22 +128,22 @@ CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/bond_core/bond/ms
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/nodelet_core/nodelet/srv_gen/generated
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/driver_common/dynamic_reconfigure/msg_gen/generated
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/driver_common/dynamic_reconfigure/srv_gen/generated
-CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/navigation/costmap_2d/msg_gen/generated
+CMakeFiles/encoder.dir/src/encoder.o: /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/navigation/costmap_2d/msg_gen/generated
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/common_msgs/actionlib_msgs/msg_gen/generated
-CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/navigation/move_base_msgs/msg_gen/generated
+CMakeFiles/encoder.dir/src/encoder.o: /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/navigation/move_base_msgs/msg_gen/generated
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/common/actionlib/msg_gen/generated
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/ros_comm/messages/std_srvs/srv_gen/generated
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/encoder.dir/src/encoder.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -o CMakeFiles/encoder.dir/src/encoder.o -c /home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/src/encoder.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -o CMakeFiles/encoder.dir/src/encoder.o -c /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/src/encoder.cpp
 
 CMakeFiles/encoder.dir/src/encoder.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/encoder.dir/src/encoder.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -E /home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/src/encoder.cpp > CMakeFiles/encoder.dir/src/encoder.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -E /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/src/encoder.cpp > CMakeFiles/encoder.dir/src/encoder.i
 
 CMakeFiles/encoder.dir/src/encoder.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/encoder.dir/src/encoder.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -S /home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/src/encoder.cpp -o CMakeFiles/encoder.dir/src/encoder.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -S /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/src/encoder.cpp -o CMakeFiles/encoder.dir/src/encoder.s
 
 CMakeFiles/encoder.dir/src/encoder.o.requires:
 .PHONY : CMakeFiles/encoder.dir/src/encoder.o.requires
@@ -153,7 +153,6 @@ CMakeFiles/encoder.dir/src/encoder.o.provides: CMakeFiles/encoder.dir/src/encode
 .PHONY : CMakeFiles/encoder.dir/src/encoder.o.provides
 
 CMakeFiles/encoder.dir/src/encoder.o.provides.build: CMakeFiles/encoder.dir/src/encoder.o
-.PHONY : CMakeFiles/encoder.dir/src/encoder.o.provides.build
 
 # Object files for target encoder
 encoder_OBJECTS = \
@@ -180,6 +179,6 @@ CMakeFiles/encoder.dir/clean:
 .PHONY : CMakeFiles/encoder.dir/clean
 
 CMakeFiles/encoder.dir/depend:
-	cd /home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder /home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder /home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build /home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build /home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build/CMakeFiles/encoder.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build/CMakeFiles/encoder.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/encoder.dir/depend
 

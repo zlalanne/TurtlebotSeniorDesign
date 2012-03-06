@@ -32,10 +32,10 @@ CMAKE_COMMAND = /usr/bin/cmake
 RM = /usr/bin/cmake -E remove -f
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder
+CMAKE_SOURCE_DIR = /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build
+CMAKE_BINARY_DIR = /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build
 
 # Utility rule file for tests.
 
@@ -54,6 +54,6 @@ CMakeFiles/tests.dir/clean:
 .PHONY : CMakeFiles/tests.dir/clean
 
 CMakeFiles/tests.dir/depend:
-	cd /home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder /home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder /home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build /home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build /home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build/CMakeFiles/tests.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build/CMakeFiles/tests.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/tests.dir/depend
 

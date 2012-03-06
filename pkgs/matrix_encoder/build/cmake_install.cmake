@@ -1,4 +1,4 @@
-# Install script for directory: /home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder
+# Install script for directory: /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder
 
 # Set the install prefix
 IF(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -38,7 +38,7 @@ ELSE(CMAKE_INSTALL_COMPONENT)
   SET(CMAKE_INSTALL_MANIFEST "install_manifest.txt")
 ENDIF(CMAKE_INSTALL_COMPONENT)
 
-FILE(WRITE "/home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build/${CMAKE_INSTALL_MANIFEST}" "")
+FILE(WRITE "/home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build/${CMAKE_INSTALL_MANIFEST}" "")
 FOREACH(file ${CMAKE_INSTALL_MANIFEST_FILES})
-  FILE(APPEND "/home/thomas/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build/${CMAKE_INSTALL_MANIFEST}" "${file}\n")
+  FILE(APPEND "/home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build/${CMAKE_INSTALL_MANIFEST}" "${file}\n")
 ENDFOREACH(file)

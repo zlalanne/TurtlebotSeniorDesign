@@ -21,7 +21,7 @@ namespace matrix_encoder {
    encoder_costmap_ros = new costmap_2d::Costmap2DROS("encoder_costmap", tf_);
    encoder_costmap_ros->pause(); // prevent the costmap from updating
    encoder_costmap_ros->start(); // start updating the costmap
-   encoder_costmap_ros.getCostmapCopy(costmap);
+   encoder_costmap_ros->getCostmapCopy(costmap);
    charArray = costmap.getCharMap();  
    }
 }
