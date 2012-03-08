@@ -12,6 +12,13 @@ using namespace std;
  * whatever topics necessary to gather information about the robot's position,   * orientation, and nearby obstacles.
  */
 
+/*
+ *    USEFUL METHODS
+ *    
+ *
+ */
+
+
 namespace matrix_encoder {
 
    MatrixEncoder::MatrixEncoder(std::string name, tf::TransformListener& tf) :
@@ -31,10 +38,13 @@ namespace matrix_encoder {
    unsigned int numYcells = encoder_costmap_ros->getSizeInCellsY();
   
    ofstream myfile;
-   myfile.open("Map.txt");
+   myfile.open("~/Map.txt");
    for (int j = 0; j < 50; j++) {
       for(int i = 0; i < (numXcells * numYcells); i++){
-         myfile << charArray[i];
+         myfile << charArray[i] << " ";
+         if ((i % numYcells) == 0) {
+            myfile << endl;
+         }
       }
       myfile << endl << endl;
       // delay
