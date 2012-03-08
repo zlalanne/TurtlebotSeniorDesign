@@ -27,7 +27,7 @@ namespace matrix_encoder {
 
    ros::NodeHandle nh;   // move_base also has a private node handler private_nh
 
-
+   ROS_INFO("About to create costmap object");
    // create the ros wrapper for the encoder's costmap... and initialize a pointer we'll use with the underlying map
    encoder_costmap_ros = new costmap_2d::Costmap2DROS("encoder_costmap", tf_);
    encoder_costmap_ros->pause(); // prevent the costmap from updating
@@ -36,7 +36,7 @@ namespace matrix_encoder {
    charArray = costmap.getCharMap();
    unsigned int numXcells = encoder_costmap_ros->getSizeInCellsX();
    unsigned int numYcells = encoder_costmap_ros->getSizeInCellsY();
-
+   ROS_INFO("About to start priting the char array to a file");
    ofstream myfile;
    myfile.open("~/Map.txt");
    for (int j = 0; j < 50; j++) {
