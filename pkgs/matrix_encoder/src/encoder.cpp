@@ -1,6 +1,7 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "matrix_encoder/encoder.h"
+#include "costmap_2d/costmap_2d_ros.h"
 #include <iostream>
 #include <fstream>
 #include <unistd.h>
@@ -61,12 +62,36 @@ namespace matrix_encoder {
    encoder_costmap_ros->pause(); // prevent the costmap from updating
    encoder_costmap_ros->start(); // start updating the costmap
    encoder_costmap_ros->getCostmapCopy(costmap);
+
    // try to reset the costmap to all unknown information
    //costmap.resetMaps();  // protected function (could use a friendly function to get to it
    encoder_costmap_ros->resetMapOutsideWindow(0,0);
    charArray = costmap.getCharMap();
    unsigned int numXcells = encoder_costmap_ros->getSizeInCellsX();
    unsigned int numYcells = encoder_costmap_ros->getSizeInCellsY();
+
+   unsigned int sizeX = costmap.getSizeInMetersX();
+   unsigned int sizeY = costmap.getSizeInMetersY();
+   ROS_INFO("Size of map in meters is %d X %d", sizeX, sizeY);
+
+   double RobotPoseX;
+   double RobotPoseY;
+
+   ros::Rate r(1.0);
+
+   while(true) {
+      if (!encoder_costmap_ros->getRobotPose(robotPose)) {
+         ROS_ERROR("Could not get robot pose!");
+      }
+
+      RobotPoseX = robotPose.getOrigin().x();
+      RobotPoseY = robotPose.getOrigin().y();
+
+      ROS_WARN("Robot's pose is x: %g   y: %g", RobotPoseX, RobotPoseY);
+
+      r.sleep();
+   }
+
    ROS_INFO("About to start priting the char array to a file");
 
   // ofstream myfile;
