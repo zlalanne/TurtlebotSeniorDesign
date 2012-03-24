@@ -21,6 +21,8 @@ std_msgs/String.h
 /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/src/std_msgs/String.h
 matrix_encoder/encoder.h
 /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/src/matrix_encoder/encoder.h
+costmap_2d/costmap_2d_ros.h
+/home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/src/costmap_2d/costmap_2d_ros.h
 iostream
 -
 fstream
