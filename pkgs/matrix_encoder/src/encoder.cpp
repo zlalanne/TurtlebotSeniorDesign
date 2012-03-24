@@ -43,76 +43,95 @@ using namespace std;
 
 namespace matrix_encoder {
 
-   MatrixEncoder::MatrixEncoder(std::string name, tf::TransformListener& tf) :
-   tf_(tf), encoder_costmap_ros(NULL), charArray(NULL) {
+  MatrixEncoder::MatrixEncoder(std::string name, tf::TransformListener& tf) :
+  tf_(tf), encoder_costmap_ros(NULL), charArray(NULL), map_print_thread_(NULL) {
 
 
-   ros::NodeHandle nh;   // move_base also has a private node handler private_nh
+    ros::NodeHandle nh;   // move_base also has a private node handler private_nh
 
-   // This needs to happen before we start fooling around with logger levels. Otherwise the level we set may be overwritten by a configuration file
-   ROSCONSOLE_AUTOINIT;  
-   log4cxx::LoggerPtr my_logger = log4cxx::Logger::getLogger(ROSCONSOLE_DEFAULT_NAME);
-   // Set the logger for this package to output all statements
-   my_logger->setLevel(ros::console::g_level_lookup[ros::console::levels::Debug]);
+    // This needs to happen before we start fooling around with logger levels. Otherwise the level we set may be overwritten by a configuration file
+    ROSCONSOLE_AUTOINIT;  
+    log4cxx::LoggerPtr my_logger = log4cxx::Logger::getLogger(ROSCONSOLE_DEFAULT_NAME);
+    // Set the logger for this package to output all statements
+    my_logger->setLevel(ros::console::g_level_lookup[ros::console::levels::Debug]);
 
-   // create the ros wrapper for the encoder's costmap... and initialize a pointer we'll use with the underlying map
-   encoder_costmap_ros = new costmap_2d::Costmap2DROS("encoder_costmap", tf_);
-   encoder_costmap_ros->pause(); // prevent the costmap from updating
-   encoder_costmap_ros->start(); // start updating the costmap
-   encoder_costmap_ros->updateMap(); // force a map update with new sensor data
-   encoder_costmap_ros->getCostmapCopy(costmap);
+    // create the ros wrapper for the encoder's costmap... and initialize a pointer we'll use with the underlying map
+    encoder_costmap_ros = new costmap_2d::Costmap2DROS("encoder_costmap", tf_);
+    encoder_costmap_ros->pause(); // prevent the costmap from updating
+    encoder_costmap_ros->start(); // start updating the costmap
+    encoder_costmap_ros->updateMap(); // force a map update with new sensor data
+    encoder_costmap_ros->getCostmapCopy(costmap);
 
-   // try to reset the costmap to all unknown information
-   //costmap.resetMaps();  // protected function (could use a friendly function to get to it
-//   encoder_costmap_ros->resetMapOutsideWindow(0,0);
-   charArray = costmap.getCharMap();
+    // try to reset the costmap to all unknown information
+    //costmap.resetMaps();  // protected function (could use a friendly function to get to it
+    //   encoder_costmap_ros->resetMapOutsideWindow(0,0);
+    charArray = costmap.getCharMap();
 
-   unsigned int numXcells = encoder_costmap_ros->getSizeInCellsX();
-   unsigned int numYcells = encoder_costmap_ros->getSizeInCellsY();
-   ROS_INFO("Size of map in cells is %d, %d", numXcells, numYcells);
+    unsigned int numXcells = encoder_costmap_ros->getSizeInCellsX();
+    unsigned int numYcells = encoder_costmap_ros->getSizeInCellsY();
+    ROS_INFO("Size of map in cells is %d, %d", numXcells, numYcells);
 
-   unsigned int sizeX = costmap.getSizeInMetersX();
-   unsigned int sizeY = costmap.getSizeInMetersY();
-   ROS_INFO("Size of map in meters is %d X %d", sizeX, sizeY);
+    unsigned int sizeX = costmap.getSizeInMetersX();
+    unsigned int sizeY = costmap.getSizeInMetersY();
+    ROS_INFO("Size of map in meters is %d X %d", sizeX, sizeY);
 
-   double RobotPoseX;
-   double RobotPoseY;
+    double RobotPoseX;
+    double RobotPoseY;
 
-   ros::Rate r(1.0);
+    // GOING TO TRY ADDING A PERIODIC THREAD THAT WILL PRINT COSTMAP DATA
+    double map_print_frequency = 0.1;  // hopefully this will make the thread run every 10 seconds?
+    map_print_thread_ = new boost::thread(boost::bind(&matrix_encoder::MatrixEncoder::mapPrintLoop, this, map_print_frequency));
+      
+
+
+//     ros::Rate r(1.0);
 
 /*   while(true) {
-      if (!encoder_costmap_ros->getRobotPose(robotPose)) {
+       if (!encoder_costmap_ros->getRobotPose(robotPose)) {
          ROS_ERROR("Could not get robot pose!");
-      }
+       }
 
-      RobotPoseX = robotPose.getOrigin().x();
-      RobotPoseY = robotPose.getOrigin().y();
+       RobotPoseX = robotPose.getOrigin().x();
+       RobotPoseY = robotPose.getOrigin().y();
 
-      ROS_WARN("Robot's pose is x: %g   y: %g", RobotPoseX, RobotPoseY);
+       ROS_WARN("Robot's pose is x: %g   y: %g", RobotPoseX, RobotPoseY);
 
-      r.sleep();
-   }
+       r.sleep();
+    }
 */
 /*
-   int index = 0;
-   ROS_INFO("About to print initial map");
-   for (int j = 0; j < numXcells; j++) {
+    int index = 0;
+    ROS_INFO("About to print initial map");
+    for (int j = 0; j < numXcells; j++) {
       for(int i = 0; i < numYcells; i++) {
-         ROS_WARN("1st: %d", charArray[index++]);
+        ROS_WARN("1st: %d", charArray[index++]);
       }
-   }  */
+    }  */
 /*
-   index = 0;
-   encoder_costmap_ros->resetMapOutsideWindow(0,0);
-   encoder_costmap_ros->getCostmapCopy(costmap);
-   charArray = costmap.getCharMap();
-   ROS_INFO("About to print cleared map");
-   for (int j = 0; j < numXcells; j++) {
+    index = 0;
+    encoder_costmap_ros->resetMapOutsideWindow(0,0);
+    encoder_costmap_ros->getCostmapCopy(costmap);
+    charArray = costmap.getCharMap();
+    ROS_INFO("About to print cleared map");
+    for (int j = 0; j < numXcells; j++) {
       for(int i = 0; i < numYcells; i++) {
-         ROS_WARN("2nd: %d", charArray[index++]);
+        ROS_WARN("2nd: %d", charArray[index++]);
       }
-   } */
-}
+    } */
+  }
+
+  void MatrixEncoder::mapPrintLoop(double frequency) {
+    // this loop should print out some version of the costmap data
+    ros::NodeHandle nh;
+    ros::Rate r(frequency);
+    while(nh.ok()) {
+      ROS_INFO("print loop running");
+      unsigned int sumObstacles;
+      
+      r.sleep();
+    }
+  }  
+
 }
 
 
