@@ -14,7 +14,7 @@ void say_heading(int robot_x, int robot_y, int robot_heading, int obj_x, int obj
     heading = (heading>robot_heading) ? heading-robot_heading : robot_heading-heading;
     int distance = sqrt(pow(obj_x-robot_x, 2) + pow(obj_y-robot_y, 2));
 
-    command_string << "espeak -v mb-us1 \"The object is " << heading << "degrees to the " << direction << " and " << distance << " units away.\" &> /dev/null";
+    command_string << "espeak \"The object is " << heading << "degrees to the " << direction << " and " << distance << " units away.\" &> /dev/null";
     
     system(command_string.str().c_str());
 }
