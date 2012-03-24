@@ -55,20 +55,21 @@ namespace matrix_encoder {
    // Set the logger for this package to output all statements
    my_logger->setLevel(ros::console::g_level_lookup[ros::console::levels::Debug]);
 
-   ROS_DEBUG("Testing");
-   ROS_INFO("About to create costmap object");
    // create the ros wrapper for the encoder's costmap... and initialize a pointer we'll use with the underlying map
    encoder_costmap_ros = new costmap_2d::Costmap2DROS("encoder_costmap", tf_);
    encoder_costmap_ros->pause(); // prevent the costmap from updating
    encoder_costmap_ros->start(); // start updating the costmap
+   encoder_costmap_ros->updateMap(); // force a map update with new sensor data
    encoder_costmap_ros->getCostmapCopy(costmap);
 
    // try to reset the costmap to all unknown information
    //costmap.resetMaps();  // protected function (could use a friendly function to get to it
-   encoder_costmap_ros->resetMapOutsideWindow(0,0);
+//   encoder_costmap_ros->resetMapOutsideWindow(0,0);
    charArray = costmap.getCharMap();
+
    unsigned int numXcells = encoder_costmap_ros->getSizeInCellsX();
    unsigned int numYcells = encoder_costmap_ros->getSizeInCellsY();
+   ROS_INFO("Size of map in cells is %d, %d", numXcells, numYcells);
 
    unsigned int sizeX = costmap.getSizeInMetersX();
    unsigned int sizeY = costmap.getSizeInMetersY();
@@ -79,7 +80,7 @@ namespace matrix_encoder {
 
    ros::Rate r(1.0);
 
-   while(true) {
+/*   while(true) {
       if (!encoder_costmap_ros->getRobotPose(robotPose)) {
          ROS_ERROR("Could not get robot pose!");
       }
@@ -91,28 +92,27 @@ namespace matrix_encoder {
 
       r.sleep();
    }
-
-   ROS_INFO("About to start priting the char array to a file");
-
-  // ofstream myfile;
-  // myfile.open("~/Map.txt");
-   for (int j = 0; j < 50; j++) {
-      for(int i = 0; i < (numXcells * numYcells); i++){
-        // myfile << charArray[i] << " ";
-         ROS_INFO("%d", charArray[i]);
-        // if ((i % numYcells) == 0) {
-           // myfile << endl;
-        // }
+*/
+/*
+   int index = 0;
+   ROS_INFO("About to print initial map");
+   for (int j = 0; j < numXcells; j++) {
+      for(int i = 0; i < numYcells; i++) {
+         ROS_WARN("1st: %d", charArray[index++]);
       }
-      //myfile << endl << endl;
-      // delay
-      sleep(2000); // time to wait in msec
-      //ROS_INFO("Should have printed to file");
-   }
-
-
- //  myfile.close();
-   }
+   }  */
+/*
+   index = 0;
+   encoder_costmap_ros->resetMapOutsideWindow(0,0);
+   encoder_costmap_ros->getCostmapCopy(costmap);
+   charArray = costmap.getCharMap();
+   ROS_INFO("About to print cleared map");
+   for (int j = 0; j < numXcells; j++) {
+      for(int i = 0; i < numYcells; i++) {
+         ROS_WARN("2nd: %d", charArray[index++]);
+      }
+   } */
+}
 }
 
 
@@ -125,7 +125,18 @@ int main(int argc, char **argv)
 
   ros::NodeHandle n;
 
-  ros::spin();
-
+  ros::Rate r(10.0); // 5 second timer
+  
+  while(true) {
+    ros::spinOnce();
+    // print out the map, but this takes a LOT of time.....
+//    r.sleep();
+ //   ROS_INFO("About to print map in main");
+  //  encoder_costmap_ros->getCostmapCopy(costmap);
+ //   charArray = costmap.getCharMap();
+//    for (int j = 0; (j < matrix_encoder->getSizeInCellsX() * matrix_encoder->getSizeInCellsY()); j++) {
+//       ROS_WARN("M: %d" charArray[j]);
+//    }
+  }
   return 0;
 }
