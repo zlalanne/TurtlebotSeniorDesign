@@ -126,8 +126,16 @@ namespace matrix_encoder {
     ros::Rate r(frequency);
     while(nh.ok()) {
       ROS_INFO("print loop running");
-      unsigned int sumObstacles;
-      
+      unsigned int sumObstacles = 0;
+      unsigned int numCellsX = encoder_costmap_ros->getSizeInCellsX();
+      unsigned int numCellsY = encoder_costmap_ros->getSizeInCellsY();
+      charArray = costmap.getCharMap();
+      for (int index = 0; index < (numCellsX * numCellsY); index++) {
+        if (charArray[index] == 254) {
+          sumObstacles++;
+        }
+      }
+      ROS_INFO("Current number of obstacles: %d", sumObstacles);
       r.sleep();
     }
   }  
