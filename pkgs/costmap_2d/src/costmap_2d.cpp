@@ -53,6 +53,7 @@ namespace costmap_2d{
   inscribed_radius_(inscribed_radius), circumscribed_radius_(circumscribed_radius), inflation_radius_(inflation_radius),
   weight_(weight), lethal_threshold_(lethal_threshold), track_unknown_space_(track_unknown_space), unknown_cost_value_(unknown_cost_value), inflation_queue_(){
     //create the costmap, static_map, and markers
+    ROS_WARN("Making a costmap object!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     costmap_ = new unsigned char[size_x_ * size_y_];
     static_map_ = new unsigned char[size_x_ * size_y_];
     markers_ = new unsigned char[size_x_ * size_y_];
@@ -70,7 +71,7 @@ namespace costmap_2d{
 
     if(!static_data.empty()){
       ROS_ASSERT_MSG(size_x_ * size_y_ == static_data.size(), "If you want to initialize a costmap with static data, their sizes must match.");
-
+      ROS_WARN("Filling in costmap with static data!");
       //make sure the inflation queue is empty at the beginning of the cycle (should always be true)
       ROS_ASSERT_MSG(inflation_queue_.empty(), "The inflation queue must be empty at the beginning of inflation");
 
@@ -84,8 +85,9 @@ namespace costmap_2d{
           //check if the static value is above the unknown or lethal thresholds
           if(track_unknown_space_ && unknown_cost_value_ > 0 && *static_data_index == unknown_cost_value_)
             *costmap_index = NO_INFORMATION;
-          else if(*static_data_index >= lethal_threshold_)
+          else if(*static_data_index >= lethal_threshold_) {
             *costmap_index = LETHAL_OBSTACLE;
+	  }
           else
             *costmap_index = FREE_SPACE;
 
@@ -109,7 +111,8 @@ namespace costmap_2d{
     }
     else{
       //everything is unknown initially if we don't have a static map unless we aren't tracking unkown space in which case it is free
-      resetMaps();
+        ROS_WARN("Map is being reset without data!");
+	resetMaps();
     }
   }
 

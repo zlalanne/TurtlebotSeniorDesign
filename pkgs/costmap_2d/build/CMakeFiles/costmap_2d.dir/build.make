@@ -32,10 +32,10 @@ CMAKE_COMMAND = /usr/bin/cmake
 RM = /usr/bin/cmake -E remove -f
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d
+CMAKE_SOURCE_DIR = /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build
+CMAKE_BINARY_DIR = /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/costmap_2d.dir/depend.make
@@ -121,17 +121,17 @@ CMakeFiles/costmap_2d.dir/src/costmap_2d.o: /opt/ros/electric/stacks/bond_core/b
 CMakeFiles/costmap_2d.dir/src/costmap_2d.o: /opt/ros/electric/stacks/nodelet_core/nodelet/srv_gen/generated
 CMakeFiles/costmap_2d.dir/src/costmap_2d.o: /opt/ros/electric/stacks/driver_common/dynamic_reconfigure/msg_gen/generated
 CMakeFiles/costmap_2d.dir/src/costmap_2d.o: /opt/ros/electric/stacks/driver_common/dynamic_reconfigure/srv_gen/generated
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/costmap_2d.dir/src/costmap_2d.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -o CMakeFiles/costmap_2d.dir/src/costmap_2d.o -c /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/costmap_2d.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -o CMakeFiles/costmap_2d.dir/src/costmap_2d.o -c /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/costmap_2d.cpp
 
 CMakeFiles/costmap_2d.dir/src/costmap_2d.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/costmap_2d.dir/src/costmap_2d.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -E /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/costmap_2d.cpp > CMakeFiles/costmap_2d.dir/src/costmap_2d.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -E /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/costmap_2d.cpp > CMakeFiles/costmap_2d.dir/src/costmap_2d.i
 
 CMakeFiles/costmap_2d.dir/src/costmap_2d.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/costmap_2d.dir/src/costmap_2d.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -S /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/costmap_2d.cpp -o CMakeFiles/costmap_2d.dir/src/costmap_2d.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -S /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/costmap_2d.cpp -o CMakeFiles/costmap_2d.dir/src/costmap_2d.s
 
 CMakeFiles/costmap_2d.dir/src/costmap_2d.o.requires:
 .PHONY : CMakeFiles/costmap_2d.dir/src/costmap_2d.o.requires
@@ -217,17 +217,17 @@ CMakeFiles/costmap_2d.dir/src/observation_buffer.o: /opt/ros/electric/stacks/bon
 CMakeFiles/costmap_2d.dir/src/observation_buffer.o: /opt/ros/electric/stacks/nodelet_core/nodelet/srv_gen/generated
 CMakeFiles/costmap_2d.dir/src/observation_buffer.o: /opt/ros/electric/stacks/driver_common/dynamic_reconfigure/msg_gen/generated
 CMakeFiles/costmap_2d.dir/src/observation_buffer.o: /opt/ros/electric/stacks/driver_common/dynamic_reconfigure/srv_gen/generated
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/costmap_2d.dir/src/observation_buffer.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -o CMakeFiles/costmap_2d.dir/src/observation_buffer.o -c /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/observation_buffer.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -o CMakeFiles/costmap_2d.dir/src/observation_buffer.o -c /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/observation_buffer.cpp
 
 CMakeFiles/costmap_2d.dir/src/observation_buffer.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/costmap_2d.dir/src/observation_buffer.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -E /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/observation_buffer.cpp > CMakeFiles/costmap_2d.dir/src/observation_buffer.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -E /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/observation_buffer.cpp > CMakeFiles/costmap_2d.dir/src/observation_buffer.i
 
 CMakeFiles/costmap_2d.dir/src/observation_buffer.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/costmap_2d.dir/src/observation_buffer.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -S /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/observation_buffer.cpp -o CMakeFiles/costmap_2d.dir/src/observation_buffer.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -S /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/observation_buffer.cpp -o CMakeFiles/costmap_2d.dir/src/observation_buffer.s
 
 CMakeFiles/costmap_2d.dir/src/observation_buffer.o.requires:
 .PHONY : CMakeFiles/costmap_2d.dir/src/observation_buffer.o.requires
@@ -313,17 +313,17 @@ CMakeFiles/costmap_2d.dir/src/costmap_2d_ros.o: /opt/ros/electric/stacks/bond_co
 CMakeFiles/costmap_2d.dir/src/costmap_2d_ros.o: /opt/ros/electric/stacks/nodelet_core/nodelet/srv_gen/generated
 CMakeFiles/costmap_2d.dir/src/costmap_2d_ros.o: /opt/ros/electric/stacks/driver_common/dynamic_reconfigure/msg_gen/generated
 CMakeFiles/costmap_2d.dir/src/costmap_2d_ros.o: /opt/ros/electric/stacks/driver_common/dynamic_reconfigure/srv_gen/generated
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/costmap_2d.dir/src/costmap_2d_ros.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -o CMakeFiles/costmap_2d.dir/src/costmap_2d_ros.o -c /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/costmap_2d_ros.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -o CMakeFiles/costmap_2d.dir/src/costmap_2d_ros.o -c /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/costmap_2d_ros.cpp
 
 CMakeFiles/costmap_2d.dir/src/costmap_2d_ros.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/costmap_2d.dir/src/costmap_2d_ros.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -E /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/costmap_2d_ros.cpp > CMakeFiles/costmap_2d.dir/src/costmap_2d_ros.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -E /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/costmap_2d_ros.cpp > CMakeFiles/costmap_2d.dir/src/costmap_2d_ros.i
 
 CMakeFiles/costmap_2d.dir/src/costmap_2d_ros.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/costmap_2d.dir/src/costmap_2d_ros.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -S /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/costmap_2d_ros.cpp -o CMakeFiles/costmap_2d.dir/src/costmap_2d_ros.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -S /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/costmap_2d_ros.cpp -o CMakeFiles/costmap_2d.dir/src/costmap_2d_ros.s
 
 CMakeFiles/costmap_2d.dir/src/costmap_2d_ros.o.requires:
 .PHONY : CMakeFiles/costmap_2d.dir/src/costmap_2d_ros.o.requires
@@ -409,17 +409,17 @@ CMakeFiles/costmap_2d.dir/src/costmap_2d_publisher.o: /opt/ros/electric/stacks/b
 CMakeFiles/costmap_2d.dir/src/costmap_2d_publisher.o: /opt/ros/electric/stacks/nodelet_core/nodelet/srv_gen/generated
 CMakeFiles/costmap_2d.dir/src/costmap_2d_publisher.o: /opt/ros/electric/stacks/driver_common/dynamic_reconfigure/msg_gen/generated
 CMakeFiles/costmap_2d.dir/src/costmap_2d_publisher.o: /opt/ros/electric/stacks/driver_common/dynamic_reconfigure/srv_gen/generated
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/costmap_2d.dir/src/costmap_2d_publisher.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -o CMakeFiles/costmap_2d.dir/src/costmap_2d_publisher.o -c /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/costmap_2d_publisher.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -o CMakeFiles/costmap_2d.dir/src/costmap_2d_publisher.o -c /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/costmap_2d_publisher.cpp
 
 CMakeFiles/costmap_2d.dir/src/costmap_2d_publisher.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/costmap_2d.dir/src/costmap_2d_publisher.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -E /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/costmap_2d_publisher.cpp > CMakeFiles/costmap_2d.dir/src/costmap_2d_publisher.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -E /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/costmap_2d_publisher.cpp > CMakeFiles/costmap_2d.dir/src/costmap_2d_publisher.i
 
 CMakeFiles/costmap_2d.dir/src/costmap_2d_publisher.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/costmap_2d.dir/src/costmap_2d_publisher.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -S /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/costmap_2d_publisher.cpp -o CMakeFiles/costmap_2d.dir/src/costmap_2d_publisher.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -S /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/costmap_2d_publisher.cpp -o CMakeFiles/costmap_2d.dir/src/costmap_2d_publisher.s
 
 CMakeFiles/costmap_2d.dir/src/costmap_2d_publisher.o.requires:
 .PHONY : CMakeFiles/costmap_2d.dir/src/costmap_2d_publisher.o.requires
@@ -505,17 +505,17 @@ CMakeFiles/costmap_2d.dir/src/voxel_costmap_2d.o: /opt/ros/electric/stacks/bond_
 CMakeFiles/costmap_2d.dir/src/voxel_costmap_2d.o: /opt/ros/electric/stacks/nodelet_core/nodelet/srv_gen/generated
 CMakeFiles/costmap_2d.dir/src/voxel_costmap_2d.o: /opt/ros/electric/stacks/driver_common/dynamic_reconfigure/msg_gen/generated
 CMakeFiles/costmap_2d.dir/src/voxel_costmap_2d.o: /opt/ros/electric/stacks/driver_common/dynamic_reconfigure/srv_gen/generated
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build/CMakeFiles $(CMAKE_PROGRESS_5)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/costmap_2d.dir/src/voxel_costmap_2d.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -o CMakeFiles/costmap_2d.dir/src/voxel_costmap_2d.o -c /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/voxel_costmap_2d.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -o CMakeFiles/costmap_2d.dir/src/voxel_costmap_2d.o -c /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/voxel_costmap_2d.cpp
 
 CMakeFiles/costmap_2d.dir/src/voxel_costmap_2d.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/costmap_2d.dir/src/voxel_costmap_2d.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -E /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/voxel_costmap_2d.cpp > CMakeFiles/costmap_2d.dir/src/voxel_costmap_2d.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -E /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/voxel_costmap_2d.cpp > CMakeFiles/costmap_2d.dir/src/voxel_costmap_2d.i
 
 CMakeFiles/costmap_2d.dir/src/voxel_costmap_2d.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/costmap_2d.dir/src/voxel_costmap_2d.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -S /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/voxel_costmap_2d.cpp -o CMakeFiles/costmap_2d.dir/src/voxel_costmap_2d.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -S /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/voxel_costmap_2d.cpp -o CMakeFiles/costmap_2d.dir/src/voxel_costmap_2d.s
 
 CMakeFiles/costmap_2d.dir/src/voxel_costmap_2d.o.requires:
 .PHONY : CMakeFiles/costmap_2d.dir/src/voxel_costmap_2d.o.requires
@@ -563,6 +563,6 @@ CMakeFiles/costmap_2d.dir/clean:
 .PHONY : CMakeFiles/costmap_2d.dir/clean
 
 CMakeFiles/costmap_2d.dir/depend:
-	cd /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build/CMakeFiles/costmap_2d.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build/CMakeFiles/costmap_2d.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/costmap_2d.dir/depend
 

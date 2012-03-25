@@ -54,7 +54,10 @@ namespace matrix_encoder {
     log4cxx::LoggerPtr my_logger = log4cxx::Logger::getLogger(ROSCONSOLE_DEFAULT_NAME);
     // Set the logger for this package to output all statements
     my_logger->setLevel(ros::console::g_level_lookup[ros::console::levels::Debug]);
+    bool static_map_holder;
+    nh.param("static_map",static_map_holder,false);
 
+    costmap_2d::Costmap2DROS* encoder_costmap_ros2 = new costmap_2d::Costmap2DROS("junk_costmap", tf_);
     // create the ros wrapper for the encoder's costmap... and initialize a pointer we'll use with the underlying map
     encoder_costmap_ros = new costmap_2d::Costmap2DROS("encoder_costmap", tf_);
     encoder_costmap_ros->pause(); // prevent the costmap from updating
@@ -126,6 +129,8 @@ namespace matrix_encoder {
     ros::Rate r(frequency);
     while(nh.ok()) {
       ROS_INFO("print loop running");
+      encoder_costmap_ros->updateMap(); // force map update
+      encoder_costmap_ros->resetMapOutsideWindow(0,0);
       unsigned int sumObstacles = 0;
       unsigned int numCellsX = encoder_costmap_ros->getSizeInCellsX();
       unsigned int numCellsY = encoder_costmap_ros->getSizeInCellsY();

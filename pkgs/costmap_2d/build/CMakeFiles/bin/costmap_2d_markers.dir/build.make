@@ -32,10 +32,10 @@ CMAKE_COMMAND = /usr/bin/cmake
 RM = /usr/bin/cmake -E remove -f
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d
+CMAKE_SOURCE_DIR = /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build
+CMAKE_BINARY_DIR = /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/bin/costmap_2d_markers.dir/depend.make
@@ -121,17 +121,17 @@ CMakeFiles/bin/costmap_2d_markers.dir/src/costmap_2d_markers.o: /opt/ros/electri
 CMakeFiles/bin/costmap_2d_markers.dir/src/costmap_2d_markers.o: /opt/ros/electric/stacks/nodelet_core/nodelet/srv_gen/generated
 CMakeFiles/bin/costmap_2d_markers.dir/src/costmap_2d_markers.o: /opt/ros/electric/stacks/driver_common/dynamic_reconfigure/msg_gen/generated
 CMakeFiles/bin/costmap_2d_markers.dir/src/costmap_2d_markers.o: /opt/ros/electric/stacks/driver_common/dynamic_reconfigure/srv_gen/generated
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/bin/costmap_2d_markers.dir/src/costmap_2d_markers.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -o CMakeFiles/bin/costmap_2d_markers.dir/src/costmap_2d_markers.o -c /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/costmap_2d_markers.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -o CMakeFiles/bin/costmap_2d_markers.dir/src/costmap_2d_markers.o -c /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/costmap_2d_markers.cpp
 
 CMakeFiles/bin/costmap_2d_markers.dir/src/costmap_2d_markers.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/bin/costmap_2d_markers.dir/src/costmap_2d_markers.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -E /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/costmap_2d_markers.cpp > CMakeFiles/bin/costmap_2d_markers.dir/src/costmap_2d_markers.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -E /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/costmap_2d_markers.cpp > CMakeFiles/bin/costmap_2d_markers.dir/src/costmap_2d_markers.i
 
 CMakeFiles/bin/costmap_2d_markers.dir/src/costmap_2d_markers.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/bin/costmap_2d_markers.dir/src/costmap_2d_markers.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -S /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/costmap_2d_markers.cpp -o CMakeFiles/bin/costmap_2d_markers.dir/src/costmap_2d_markers.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -S /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/src/costmap_2d_markers.cpp -o CMakeFiles/bin/costmap_2d_markers.dir/src/costmap_2d_markers.s
 
 CMakeFiles/bin/costmap_2d_markers.dir/src/costmap_2d_markers.o.requires:
 .PHONY : CMakeFiles/bin/costmap_2d_markers.dir/src/costmap_2d_markers.o.requires
@@ -167,6 +167,6 @@ CMakeFiles/bin/costmap_2d_markers.dir/clean:
 .PHONY : CMakeFiles/bin/costmap_2d_markers.dir/clean
 
 CMakeFiles/bin/costmap_2d_markers.dir/depend:
-	cd /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build/CMakeFiles/bin/costmap_2d_markers.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build/CMakeFiles/bin/costmap_2d_markers.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/bin/costmap_2d_markers.dir/depend
 

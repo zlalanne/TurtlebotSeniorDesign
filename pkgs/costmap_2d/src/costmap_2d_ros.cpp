@@ -606,6 +606,7 @@ namespace costmap_2d {
         if(!config.static_map && !config.rolling_window){
           rolling_window_ = false;
           static_map_ = false;
+          ROS_WARN("Setting static_map to false");
 
           if(last_config_.static_map)
           {
@@ -615,6 +616,7 @@ namespace costmap_2d {
         }
         else if(config.static_map) {
           static_map_ = true;
+	  ROS_WARN("Setting static_map to be true");
           rolling_window_ = false;
 
           //we'll subscribe to the latched topic that the map server uses
@@ -633,6 +635,7 @@ namespace costmap_2d {
         }
         else if(config.rolling_window) {
           rolling_window_ = true;
+          ROS_WARN("Setting static_map to false");
           static_map_ = false;
 
           if(last_config_.static_map)

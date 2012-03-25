@@ -32,10 +32,10 @@ CMAKE_COMMAND = /usr/bin/cmake
 RM = /usr/bin/cmake -E remove -f
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d
+CMAKE_SOURCE_DIR = /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build
+CMAKE_BINARY_DIR = /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build
 
 # Utility rule file for ROSBUILD_gencfg_cpp.
 
@@ -281,7 +281,7 @@ CMakeFiles/ROSBUILD_gencfg_cpp: ../src/costmap_2d/cfg/Costmap2DConfig.py
 ../cfg/cpp/costmap_2d/Costmap2DConfig.h: /opt/ros/electric/ros/core/roslib/src/roslib/os_detect.py
 ../cfg/cpp/costmap_2d/Costmap2DConfig.h: /usr/lib/python2.7/xmlrpclib.py
 ../cfg/cpp/costmap_2d/Costmap2DConfig.h: /opt/ros/electric/stacks/ros_comm/tools/rosbag/src/rosbag/__init__.py
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../cfg/cpp/costmap_2d/Costmap2DConfig.h, ../docs/Costmap2DConfig.dox, ../docs/Costmap2DConfig-usage.dox, ../src/costmap_2d/cfg/Costmap2DConfig.py, ../docs/Costmap2DConfig.wikidoc"
 	../cfg/Costmap2D.cfg
 
@@ -311,6 +311,6 @@ CMakeFiles/ROSBUILD_gencfg_cpp.dir/clean:
 .PHONY : CMakeFiles/ROSBUILD_gencfg_cpp.dir/clean
 
 CMakeFiles/ROSBUILD_gencfg_cpp.dir/depend:
-	cd /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build /home/raz/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build/CMakeFiles/ROSBUILD_gencfg_cpp.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/build/CMakeFiles/ROSBUILD_gencfg_cpp.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/ROSBUILD_gencfg_cpp.dir/depend
 

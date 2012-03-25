@@ -11,9 +11,9 @@ SET(CMAKE_FORCE_UNIX_PATHS 1)
 # The C and CXX include file search paths:
 SET(CMAKE_C_INCLUDE_PATH
   "../include"
-  "/opt/ros/electric/stacks/navigation/costmap_2d/cfg/cpp"
-  "/opt/ros/electric/stacks/navigation/costmap_2d/include"
-  "/opt/ros/electric/stacks/navigation/costmap_2d/msg_gen/cpp/include"
+  "/home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/cfg/cpp"
+  "/home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/include"
+  "/home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/msg_gen/cpp/include"
   "/opt/ros/electric/stacks/laser_pipeline/laser_geometry/include"
   "/opt/ros/electric/stacks/navigation/voxel_grid/include"
   "/opt/ros/electric/stacks/common_msgs/visualization_msgs/msg_gen/cpp/include"

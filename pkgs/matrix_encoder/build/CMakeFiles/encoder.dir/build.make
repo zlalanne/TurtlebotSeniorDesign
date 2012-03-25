@@ -104,7 +104,7 @@ CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/nodelet_core/node
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/nodelet_core/nodelet_topic_tools/manifest.xml
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/driver_common/dynamic_reconfigure/manifest.xml
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/perception_pcl/pcl_ros/manifest.xml
-CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/navigation/costmap_2d/manifest.xml
+CMakeFiles/encoder.dir/src/encoder.o: /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/manifest.xml
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/ros_comm/messages/rosgraph_msgs/msg_gen/generated
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/ros_comm/clients/cpp/roscpp/msg_gen/generated
@@ -123,7 +123,7 @@ CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/bond_core/bond/ms
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/nodelet_core/nodelet/srv_gen/generated
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/driver_common/dynamic_reconfigure/msg_gen/generated
 CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/driver_common/dynamic_reconfigure/srv_gen/generated
-CMakeFiles/encoder.dir/src/encoder.o: /opt/ros/electric/stacks/navigation/costmap_2d/msg_gen/generated
+CMakeFiles/encoder.dir/src/encoder.o: /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/costmap_2d/msg_gen/generated
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/encoder.dir/src/encoder.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -o CMakeFiles/encoder.dir/src/encoder.o -c /home/turtlebot/ros_workspace/TurtlebotSeniorDesign/pkgs/matrix_encoder/src/encoder.cpp
