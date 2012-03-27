@@ -59,6 +59,10 @@ namespace matrix_encoder {
 
     costmap_2d::Costmap2DROS* encoder_costmap_ros2 = new costmap_2d::Costmap2DROS("junk_costmap", tf_);
     // create the ros wrapper for the encoder's costmap... and initialize a pointer we'll use with the underlying map
+    
+    // I think we need to change the matrix encoder launch file to include a yaml
+    // file and have it so that the ns = encoder_costmap, look at:
+    // matrix_encoder/config/move_base_turtlebot.launch to see what im talking about
     encoder_costmap_ros = new costmap_2d::Costmap2DROS("encoder_costmap", tf_);
     encoder_costmap_ros->pause(); // prevent the costmap from updating
     encoder_costmap_ros->start(); // start updating the costmap
