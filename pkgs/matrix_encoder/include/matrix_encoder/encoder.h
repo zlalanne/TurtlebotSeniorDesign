@@ -19,7 +19,9 @@ namespace matrix_encoder {
          const unsigned char* charArray;  // pointer to the underlying unsigned char array used as the costmap
          tf::Stamped<tf::Pose> robotPose; // variable that will store the current position of the robot, update with getRobotPose
          boost::thread* map_print_thread_; // thread for printing map data
-  
+         ros::Publisher obstacledata_pub;
+         unsigned short count;
+         std_msgs::UInt16 msg;
          void mapPrintLoop(double frequency);
 
    };

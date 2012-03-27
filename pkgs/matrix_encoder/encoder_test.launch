@@ -11,8 +11,8 @@
 
   <!--- Run our encoder node -->
   <node pkg="matrix_encoder" type="encoder" respawn="false" name="encoder" output="screen">
-  <!-- Note: before we close the node we might want to include config files />
-  
+    <rosparam file="$(find matrix_encoder)/config/costmap_common_params.yaml" command="load" ns="encoder_costmap" />
+    <rosparam file="$(find matrix_encoder)/config/encoder_costmap_params.yaml" command="load" /> 
   </node>
 
 </launch>
