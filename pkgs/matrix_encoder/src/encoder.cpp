@@ -45,8 +45,7 @@ using namespace std;
 namespace matrix_encoder {
 
   MatrixEncoder::MatrixEncoder(std::string name, tf::TransformListener& tf) :
-  tf_(tf), encoder_costmap_ros(NULL), charArray(NULL), map_print_thread_(NULL), obstacledata_pub(NULL), count(NULL), msg(NULL) {
-
+  tf_(tf), encoder_costmap_ros(NULL), charArray(NULL), map_print_thread_(NULL) { 
 
     ros::NodeHandle nh;   // move_base also has a private node handler private_nh
 
@@ -55,14 +54,14 @@ namespace matrix_encoder {
     log4cxx::LoggerPtr my_logger = log4cxx::Logger::getLogger(ROSCONSOLE_DEFAULT_NAME);
     // Set the logger for this package to output all statements
     my_logger->setLevel(ros::console::g_level_lookup[ros::console::levels::Debug]);
-
+  
     // create the ros wrapper for the encoder's costmap... and initialize a pointer we'll use with the underlying map
-    
     encoder_costmap_ros = new costmap_2d::Costmap2DROS("encoder_costmap", tf_);
     encoder_costmap_ros->pause(); // prevent the costmap from updating
     encoder_costmap_ros->start(); // start updating the costmap
-//   encoder_costmap_ros->getCostmapCopy(costmap);
-//    charArray = costmap.getCharMap();
+
+    encoder_costmap_ros->getCostmapCopy(costmap);
+    charArray = costmap.getCharMap();
 
     unsigned int numXcells = encoder_costmap_ros->getSizeInCellsX();
     unsigned int numYcells = encoder_costmap_ros->getSizeInCellsY();
@@ -75,24 +74,18 @@ namespace matrix_encoder {
     double RobotPoseX;
     double RobotPoseY;
 
-    // GOING TO TRY ADDING A PERIODIC THREAD THAT WILL PRINT COSTMAP DATA
+    // Creating publisher object that publishes UInt16 on obstacledata topic
+    obstacledata_pub = nh.advertise<std_msgs::UInt16>("obstacledata",1000);
+    
+    // Creating the msg object and initalizing data
+    //std_msgs::UInt16 msg;
+    msg.data = 0;
+    
+    count = 0;  
     double map_print_frequency = 0.1;  // hopefully this will make the thread run every 10 seconds?
     map_print_thread_ = new boost::thread(boost::bind(&matrix_encoder::MatrixEncoder::mapPrintLoop, this, map_print_frequency));
+    // GOING TO TRY ADDING A PERIODIC THREAD THAT WILL PRINT COSTMAP DATA
   
-  
-  ros::NodeHandle n; 
-  
-  // Creating publisher object that publishes UInt16 on obstacledata topic
-  ros::Publisher obstacledata_pub = n.advertise<std_msgs::UInt16>("obstacledata",1000);
-
-  // Set how often to publish data
-  ros::Rate r(10.0);
-  
-  // Creating the msg object and initalizing data
-  std_msgs::UInt16 msg;
-  msg.data = 0;
-  
-  unsigned short count = 0;  
 
 /*   while(true) {
        if (!encoder_costmap_ros->getRobotPose(robotPose)) {
@@ -113,8 +106,7 @@ namespace matrix_encoder {
     // this loop should print out some version of the costmap data
     ros::NodeHandle nh;
     ros::Rate r(frequency);
-    while(nh.ok()) {
-      ROS_INFO("print loop running");
+     ROS_INFO("print loop running");
       encoder_costmap_ros->updateMap(); // force map update
       encoder_costmap_ros->getCostmapCopy(costmap);
       charArray = costmap.getCharMap();
@@ -138,7 +130,7 @@ namespace matrix_encoder {
       ros::spinOnce();
 
       r.sleep();
-    }
+    //}
   }  
 
 }
@@ -154,8 +146,7 @@ int main(int argc, char **argv)
   while(ros::ok()) {
     
     ros::spinOnce();
-
-    r.sleep();
+  
   }
 
   return 0;
