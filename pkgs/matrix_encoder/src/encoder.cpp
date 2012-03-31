@@ -106,7 +106,8 @@ namespace matrix_encoder {
     // this loop should print out some version of the costmap data
     ros::NodeHandle nh;
     ros::Rate r(frequency);
-     ROS_INFO("print loop running");
+    while(nh.ok()) {
+      ROS_INFO("print loop running");
       encoder_costmap_ros->updateMap(); // force map update
       encoder_costmap_ros->getCostmapCopy(costmap);
       charArray = costmap.getCharMap();
@@ -127,10 +128,10 @@ namespace matrix_encoder {
       // Publish the message
       obstacledata_pub.publish(msg);
 
-      ros::spinOnce();
+     //ros::spinOnce();
 
       r.sleep();
-    //}
+    }
   }  
 
 }
