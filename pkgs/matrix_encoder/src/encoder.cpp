@@ -71,9 +71,6 @@ namespace matrix_encoder {
     unsigned int sizeY = costmap.getSizeInMetersY();
     ROS_INFO("Size of map in meters is %d X %d", sizeX, sizeY);
 
-    double RobotPoseX;
-    double RobotPoseY;
-
     // Creating publisher object that publishes UInt16 on obstacledata topic
     obstacledata_pub = nh.advertise<std_msgs::UInt16>("obstacledata",1000);
     
@@ -85,21 +82,33 @@ namespace matrix_encoder {
     double map_print_frequency = 0.1;  // hopefully this will make the thread run every 10 seconds?
     map_print_thread_ = new boost::thread(boost::bind(&matrix_encoder::MatrixEncoder::mapPrintLoop, this, map_print_frequency));
     // GOING TO TRY ADDING A PERIODIC THREAD THAT WILL PRINT COSTMAP DATA
-  
+    double heading_print_frequency = 1;
+    heading_print_thread = new boost::thread(boost::bind(&matrix_encoder::MatrixEncoder::headingPrintLoop, this, heading_print_frequency));
+  }
 
-/*   while(true) {
+  void MatrixEncoder::headingPrintLoop(double frequency) {
+    ros::NodeHandle nh;
+    ros::Rate r(frequency);
+    double RobotPoseX;
+    double RobotPoseY;
+    double RobotPoseTheta;
+    double yaw,pitch,roll;
+    while(nh.ok()) {
+
        if (!encoder_costmap_ros->getRobotPose(robotPose)) {
          ROS_ERROR("Could not get robot pose!");
        }
-
+       tf::Quaternion q;
+       q = robotPose.getRotation();
+       btMatrix3x3(q).getEulerYPR(yaw,pitch,roll);
        RobotPoseX = robotPose.getOrigin().x();
        RobotPoseY = robotPose.getOrigin().y();
+       RobotPoseTheta = yaw;
 
-       ROS_WARN("Robot's pose is x: %g   y: %g", RobotPoseX, RobotPoseY);
+       ROS_WARN("Robot's pose is x: %g  y: %g theta: %g", RobotPoseX, RobotPoseY, RobotPoseTheta);
 
        r.sleep();
     }
-*/
   }
 
   void MatrixEncoder::mapPrintLoop(double frequency) {
