@@ -9,6 +9,7 @@
 
 using namespace std;
 
+
 /*
  * this code should create a node called encoder that subscribes to whatever to
  * whatever topics necessary to gather information about the robot's position,   * orientation, and nearby obstacles.
@@ -60,8 +61,8 @@ namespace matrix_encoder {
     encoder_costmap_ros->pause(); // prevent the costmap from updating
     encoder_costmap_ros->start(); // start updating the costmap
 
-    encoder_costmap_ros->getCostmapCopy(costmap);
-    charArray = costmap.getCharMap();
+ //   encoder_costmap_ros->getCostmapCopy(costmap);
+//    charArray = costmap.getCharMap();
 
     unsigned int numXcells = encoder_costmap_ros->getSizeInCellsX();
     unsigned int numYcells = encoder_costmap_ros->getSizeInCellsY();
@@ -79,11 +80,11 @@ namespace matrix_encoder {
     msg.data = 0;
     
     count = 0;  
-    double map_print_frequency = 0.1;  // hopefully this will make the thread run every 10 seconds?
+    double map_print_frequency = 0.3;  // hopefully this will make the thread run every 10 seconds?
     map_print_thread_ = new boost::thread(boost::bind(&matrix_encoder::MatrixEncoder::mapPrintLoop, this, map_print_frequency));
     // GOING TO TRY ADDING A PERIODIC THREAD THAT WILL PRINT COSTMAP DATA
     double heading_print_frequency = 1;
-    heading_print_thread = new boost::thread(boost::bind(&matrix_encoder::MatrixEncoder::headingPrintLoop, this, heading_print_frequency));
+    // heading_print_thread = new boost::thread(boost::bind(&matrix_encoder::MatrixEncoder::headingPrintLoop, this, heading_print_frequency));
   }
 
   void MatrixEncoder::headingPrintLoop(double frequency) {
@@ -103,7 +104,7 @@ namespace matrix_encoder {
        btMatrix3x3(q).getEulerYPR(yaw,pitch,roll);
        RobotPoseX = robotPose.getOrigin().x();
        RobotPoseY = robotPose.getOrigin().y();
-       RobotPoseTheta = yaw;
+       RobotPoseTheta = -yaw;
 
        ROS_WARN("Robot's pose is x: %g  y: %g theta: %g", RobotPoseX, RobotPoseY, RobotPoseTheta);
 
@@ -111,35 +112,92 @@ namespace matrix_encoder {
     }
   }
 
-  void MatrixEncoder::mapPrintLoop(double frequency) {
+void RotateAroundRobot(const unsigned char* charArray, unsigned char* rotatedArray, int numx, int numy, int robotx, int roboty, double robotangle); 
+void MatrixEncoder::mapPrintLoop(double frequency) {
     // this loop should print out some version of the costmap data
     ros::NodeHandle nh;
     ros::Rate r(frequency);
     while(nh.ok()) {
-      ROS_INFO("print loop running");
-      encoder_costmap_ros->updateMap(); // force map update
-      encoder_costmap_ros->getCostmapCopy(costmap);
-      charArray = costmap.getCharMap();
-      unsigned int sumObstacles = 0;
-      unsigned int numCellsX = encoder_costmap_ros->getSizeInCellsX();
-      unsigned int numCellsY = encoder_costmap_ros->getSizeInCellsY();
-      for (int index = 0; index < (numCellsX * numCellsY); index++) {
-        if (charArray[index] == 254) {
-          sumObstacles++;
-        }
+        ROS_INFO("print loop running");
+        encoder_costmap_ros->updateMap(); // force map update
+        //encoder_costmap_ros->getCostmapCopy(costmap);
+      
+        encoder_costmap_ros->getCostmapWindowCopy(2,2,costmap);
+        charArray = costmap.getCharMap();
+        unsigned int sumObstacles = 0;
+        //unsigned int numCellsX = encoder_costmap_ros->getSizeInCellsX();
+        //unsigned int numCellsY = encoder_costmap_ros->getSizeInCellsY();
+        unsigned int numCellsX = costmap.getSizeInCellsX();
+        unsigned int numCellsY = costmap.getSizeInCellsY();
+      
+        /*for (int index = 0; index < (numCellsX * numCellsY); index++) {
+            if (charArray[index] == 254) {
+            sumObstacles++;
+            }
+        }*/
+        for(int i = 0; i<numCellsX; i++) {
+            ostringstream w;
+            for(int j=0; j<numCellsY; j++) {
+                if (charArray[i*numCellsY+j] == 254) {
+                    if((i%2) == 0 && (j%2) == 0) {
+                        w << 1 << " ";
+                    }
+                    sumObstacles++;
+                }
+                else {
+                    if((i%2) == 0 && (j%2) == 0) {
+                        if( ((i == numCellsX/2) && (j == numCellsY/2)) ||
+                                ((i == numCellsX/2 + 1) && (j == numCellsY/2)) ||
+                                ((i == numCellsX/2) && (j == numCellsY/2 + 1)) ||
+                                ((i == numCellsX/2 + 1) && (j == numCellsY/2 + 1)) )
+                            w << "x ";
+                        else 
+                            w << 0 << " ";
+                    }
+
+                }
+            }
+            if((i%2) == 0) {
+                ROS_INFO(w.str().c_str());
+            }
       }
       ROS_INFO("Current number of obstacles: %d", sumObstacles);
+     //ros::spinOnce();
+
+      double RobotPoseX;
+    double RobotPoseY;
+    double RobotPoseTheta;
+    double yaw,pitch,roll;
+       if (!encoder_costmap_ros->getRobotPose(robotPose)) {
+         ROS_ERROR("Could not get robot pose!");
+       }
+       tf::Quaternion q;
+       q = robotPose.getRotation();
+       btMatrix3x3(q).getEulerYPR(yaw,pitch,roll);
+      // RobotPoseX = robotPose.getOrigin().x();
+      // RobotPoseY = robotPose.getOrigin().y();
+       RobotPoseX = numCellsX / 2;
+       RobotPoseY = numCellsY / 2;
+       RobotPoseTheta = yaw*-180.0/3.14159265;
+      ROS_INFO("X Coordinate: %g, Y Coordinate: %g, Theta: %g", RobotPoseX, RobotPoseY, RobotPoseTheta);
+
+       unsigned char rotatedArray[16];
+
+       RotateAroundRobot(charArray, rotatedArray, numCellsX, numCellsY, (int) RobotPoseX, (int) RobotPoseY, RobotPoseTheta);
       
+      int i = 0;
+      unsigned short data = 0;
+	for(i = 0; i < 16; i++){
+          if(rotatedArray[i] == 254){
+            data |= (0x01 << i);
+          }
+        }
       // Modify this to use real data
-      msg.data = count;
-      count++;
+      msg.data = data;
 
       // Publish the message
       obstacledata_pub.publish(msg);
-
-     //ros::spinOnce();
-
-      r.sleep();
+    r.sleep();
     }
   }  
 
@@ -161,3 +219,108 @@ int main(int argc, char **argv)
 
   return 0;
 }
+//rotated array needs to be dimensions of 4x4
+//unit test - 10x10 map, subset 81x81 around robot
+//253 = inflated obstacles, 254 = lethal, 255 = no info, 0 = free space
+void matrix_encoder::RotateAroundRobot(const unsigned char* charArray, unsigned char* rotatedArray, int numx, int numy, int robotx, int roboty, double robotangle){
+        //set robot as 0,0 by doing x - robot for x values and robot - y for y values
+        //if robot is 4,5 then 0,0 is actually -4,5
+        //              7,6 is actually 3,-1
+        //double robotangle = 0.0;
+        //int robotx = 2;
+        //int roboty = 3;
+        //cout << robotangle << endl;
+        //int numx = 10;
+        //int numy = 10;
+        //unsigned char rotatedArray[16] = {};
+        /*unsigned char charArray[100] = {255,255,255,255,255,0,0,0,0,0,
+                                        254,254,254,254,254,0,0,0,0,0,
+                                        253,253,253,253,253,0,0,0,0,0,
+                                        252,252,252,252,252,0,0,0,0,0,
+                                        251,251,251,251,251,0,0,0,0,0,
+                                        250,250,250,250,250,0,0,0,0,0,
+                                        249,249,249,249,249,0,0,0,0,0,
+                                        0,0,0,0,0,0,0,0,0,0,
+                                        0,0,0,0,0,0,0,0,0,0,
+                                        0,0,0,0,0,0,0,0,0,0};*/
+        unsigned char subsetArray[81][81];
+        unsigned char tempArray[115][115];
+        //initialize subset array
+        for(int i = 0; i < 81*81; ++i)
+                subsetArray[i/81][i%81] = 255;
+        for(int i = 0; i < 115*115; ++i)
+                tempArray[i/115][i%115] = 255;
+
+        //using 2 because of 5x5
+        for(int r = roboty - ((81-1)/2); (r < numy) && (r <= roboty + ((81-1)/2)); r++)
+        {
+                for(int c = robotx - ((81-1)/2); (c < numx) && (c <= robotx + ((81-1)/2)); c++)
+                {
+                        //cout << "r = " << r << "  c = " << c << endl;
+                        if( (r < 0) || (c < 0) || (r > numy - 1) || (c > numx - 1) )
+                                continue;
+                        //cout << "-- r = " << r - (roboty - 2) << "  c = " << c - (robotx - 2) << endl;
+                        subsetArray[r - (roboty - ((81-1)/2))][c - (robotx - ((81-1)/2))] = charArray[r*numx + c];
+                }
+        }
+        //cout << "subsetDone" << endl;
+        //radians. rotate to 90 degrees
+        double angle =  -1.57079 + robotangle;
+        //cout << angle << endl;
+        for(int i = 0; i < 81*81; ++i)
+        {
+                float x = i%81; //0 to 4
+                float y = i/81; //0 to 4, need to map to -2 to 2
+                x = x-((81-1)/2);
+                y = y-((81-1)/2);
+
+                float newy = x*sin(angle) + y*cos(angle); //-4 to 4
+                float newx = x*cos(angle) - y*sin(angle); //-4 to 4
+                newy = newy + ((115-1)/2);
+                newx = newx + ((115-1)/2);
+                //cout << "sin = " << sin(angle) << "  cos = " << cos(angle) << endl;
+                //cout << "newy = " << newy << "  newx = " << newx << endl;
+                tempArray[(int)round(newy)][(int)round(newx)] = subsetArray[i/81][i%81];
+        }
+/*        cout << "rotate done" << endl;
+        for(int i = 0; i < 115*115; ++i){
+                if(i % 115 == 0)
+                        cout << endl;
+                char things = tempArray[i/115][i%115] + '0' + 7;
+                cout << things;
+        }
+        cout << endl;
+*/
+        int tnumx = 115;
+                         
+        float i_tnumx = 115.0/4; //dont change 4
+        int cut;
+        if(i_tnumx - (int)(115.0/4) >= 0.5)
+                cut = (tnumx + 2)/4;
+        else
+                cut = tnumx/4;
+        for(int i = 0; i < 4*cut; i += cut){
+                for(int j = 0; j < 4*cut; j+= cut){
+                        for(int k = i; k < i+cut; ++k){
+                                for(int m = j; m < j+cut; ++m){
+                                        if(m >= tnumx || k >= tnumx)
+                                                continue;
+                                        if(tempArray[k][m] == 254){
+//                                                cout << "k, m " << k << ", " << m << "  " << (i/cut)*4 + (j/cut) << endl;
+                                                rotatedArray[(i/cut)*4 + (j/cut)] = 254;
+                                        }
+                                }
+                        }
+                }
+        }
+/*        for(int i = 0; i < 16; ++i){
+                char things = rotatedArray[i] + '0' + 7;
+                cout << things;
+                if(i == 3 || i == 7 || i == 11 || i == 15)
+                        cout << endl;
+        }
+*/
+	return;
+}
+
+

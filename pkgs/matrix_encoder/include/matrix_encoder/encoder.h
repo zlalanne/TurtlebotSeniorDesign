@@ -2,6 +2,7 @@
 #include "costmap_2d/costmap_2d_ros.h"
 #include "costmap_2d/costmap_2d.h"
 
+#include <cmath>
 namespace matrix_encoder {
 
    /**
@@ -28,3 +29,4 @@ namespace matrix_encoder {
 
    };
 };
+
