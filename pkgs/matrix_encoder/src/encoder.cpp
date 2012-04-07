@@ -1,6 +1,7 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "std_msgs/UInt16.h"
+#include "std_msgs/UInt8MultiArray.h"
 #include "matrix_encoder/encoder.h"
 #include "costmap_2d/costmap_2d_ros.h"
 #include <iostream>
@@ -75,11 +76,11 @@ namespace matrix_encoder {
     // Creating publisher object that publishes UInt16 on obstacledata topic
     obstacledata_pub = nh.advertise<std_msgs::UInt16>("obstacledata",1000);
     
-    // Creating the msg object and initalizing data
-    //std_msgs::UInt16 msg;
-    msg.data = 0;
+    // Creating publisher object that publishes UInt8MultiArray on guidata topic
+    guidata_pub = nh.advertise<std_msgs::UInt8MultiArray>("guidata",1000);
     
     count = 0;  
+    
     double map_print_frequency = 0.3;  // hopefully this will make the thread run every 10 seconds?
     map_print_thread_ = new boost::thread(boost::bind(&matrix_encoder::MatrixEncoder::mapPrintLoop, this, map_print_frequency));
     // GOING TO TRY ADDING A PERIODIC THREAD THAT WILL PRINT COSTMAP DATA
@@ -122,7 +123,7 @@ void MatrixEncoder::mapPrintLoop(double frequency) {
         encoder_costmap_ros->updateMap(); // force map update
         //encoder_costmap_ros->getCostmapCopy(costmap);
       
-        encoder_costmap_ros->getCostmapWindowCopy(1,1,costmap);
+        encoder_costmap_ros->getCostmapWindowCopy(2,2,costmap);
         charArray = costmap.getCharMap();
         unsigned int sumObstacles = 0;
         //unsigned int numCellsX = encoder_costmap_ros->getSizeInCellsX();
@@ -135,10 +136,10 @@ void MatrixEncoder::mapPrintLoop(double frequency) {
             sumObstacles++;
             }
         }*/
-        for(int i = 0; i<numCellsX; i++) {
+        for(int i = 0; i<numCellsY; i++) {
             ostringstream w;
-            for(int j=0; j<numCellsY; j++) {
-                if (charArray[(numCellsX-i-1)*numCellsY+j] == 254) {
+            for(int j=0; j<numCellsX; j++) {
+                if (charArray[(numCellsY - i - 1)*numCellsX + j] > 250 && charArray[(numCellsY - i - 1)*numCellsX + j] < 255) {
                     if((i%2) == 0 && (j%2) == 0) {
                         w << 1 << " ";
                     }
@@ -201,12 +202,39 @@ void MatrixEncoder::mapPrintLoop(double frequency) {
             index++;
         }
       }
-      // Modify this to use real data
+      // Setting message data
       msg.data = data;
 
       // Publish the message
       obstacledata_pub.publish(msg);
-    r.sleep();
+
+      // Clearing the data in the array
+      msgGUIData.data.clear();
+
+      // First two elements are array dimensions
+      msgGUIData.data.push_back(numCellsX);
+      msgGUIData.data.push_back(numCellsY);
+      
+      // Pushing theta
+      unsigned short theta;
+      if((yaw*180.0/3.1415926) < 0){
+          theta = (unsigned short) (360.0 + (yaw*180.0/3.1415926));
+      } else {
+          theta = (unsigned short) (yaw*180.0/3.1415926);
+      }
+      msgGUIData.data.push_back((unsigned char) (theta & 0xFF00) >> 8);
+      msgGUIData.data.push_back((unsigned char) theta & 0x00FF);
+
+
+      // Filling in the data
+      for(int i = 0; i < numCellsX*numCellsY; i++){
+        msgGUIData.data.push_back(charArray[i]);
+      }
+
+      // Publish the message
+      guidata_pub.publish(msgGUIData);
+
+      r.sleep();
     }
   }  
 
@@ -310,16 +338,19 @@ void matrix_encoder::RotateAroundRobot(const unsigned char* charArray, unsigned 
                 cut = tnumx/4;
         for(int i = 0; i < 4*cut; i += cut){
                 for(int j = 0; j < 4*cut; j+= cut){
+                        int count = 0;
                         for(int k = i; k < i+cut; ++k){
                                 for(int m = j; m < j+cut; ++m){
                                         if(m >= tnumx || k >= tnumx)
                                                 continue;
                                         if(tempArray[k][m] == 254){
 //                                                cout << "k, m " << k << ", " << m << "  " << (i/cut)*4 + (j/cut) << endl;
-                                                rotatedArray[(i/cut)*4 + (j/cut)] = 254;
+                                                  count++;
                                         }
                                 }
                         }
+                        if(count > (40))
+                                rotatedArray[(i/cut)*4 + (j/cut)] = 254;
                 }
         }
 /*        for(int i = 0; i < 16; ++i){
