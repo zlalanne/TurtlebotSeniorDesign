@@ -122,7 +122,7 @@ void MatrixEncoder::mapPrintLoop(double frequency) {
         encoder_costmap_ros->updateMap(); // force map update
         //encoder_costmap_ros->getCostmapCopy(costmap);
       
-        encoder_costmap_ros->getCostmapWindowCopy(2,2,costmap);
+        encoder_costmap_ros->getCostmapWindowCopy(1,1,costmap);
         charArray = costmap.getCharMap();
         unsigned int sumObstacles = 0;
         //unsigned int numCellsX = encoder_costmap_ros->getSizeInCellsX();
@@ -138,7 +138,7 @@ void MatrixEncoder::mapPrintLoop(double frequency) {
         for(int i = 0; i<numCellsX; i++) {
             ostringstream w;
             for(int j=0; j<numCellsY; j++) {
-                if (charArray[i*numCellsY+j] == 254) {
+                if (charArray[(numCellsX-i-1)*numCellsY+j] == 254) {
                     if((i%2) == 0 && (j%2) == 0) {
                         w << 1 << " ";
                     }
@@ -178,20 +178,29 @@ void MatrixEncoder::mapPrintLoop(double frequency) {
       // RobotPoseY = robotPose.getOrigin().y();
        RobotPoseX = numCellsX / 2;
        RobotPoseY = numCellsY / 2;
-       RobotPoseTheta = yaw*-180.0/3.14159265;
-      ROS_INFO("X Coordinate: %g, Y Coordinate: %g, Theta: %g", RobotPoseX, RobotPoseY, RobotPoseTheta);
+       RobotPoseTheta = yaw;
+      ROS_INFO("X Coordinate: %g, Y Coordinate: %g, Theta: %g", RobotPoseX, RobotPoseY, yaw*180.0/3.1415926);
 
        unsigned char rotatedArray[16];
 
        RotateAroundRobot(charArray, rotatedArray, numCellsX, numCellsY, (int) RobotPoseX, (int) RobotPoseY, RobotPoseTheta);
       
-      int i = 0;
       unsigned short data = 0;
-	for(i = 0; i < 16; i++){
+	/*for(i = 0; i < 16; i++){
           if(rotatedArray[i] == 254){
             data |= (0x01 << i);
           }
+        }*/
+
+      int index = 0;
+      for(int i=3; i>=0; i--) {
+        for(int j=0; j<4; j++) {
+            if(rotatedArray[i*4+j] != 254) {
+                data |= (0x01 << index);
+            }
+            index++;
         }
+      }
       // Modify this to use real data
       msg.data = data;
 
