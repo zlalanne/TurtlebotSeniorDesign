@@ -81,7 +81,7 @@ namespace matrix_encoder {
     
     count = 0;  
     
-    double map_print_frequency = 0.3;  // hopefully this will make the thread run every 10 seconds?
+    double map_print_frequency = 4;  // hopefully this will make the thread run every 10 seconds?
     map_print_thread_ = new boost::thread(boost::bind(&matrix_encoder::MatrixEncoder::mapPrintLoop, this, map_print_frequency));
     // GOING TO TRY ADDING A PERIODIC THREAD THAT WILL PRINT COSTMAP DATA
     double heading_print_frequency = 1;
@@ -135,7 +135,7 @@ void MatrixEncoder::mapPrintLoop(double frequency) {
             if (charArray[index] == 254) {
             sumObstacles++;
             }
-        }*/
+        }*//*
         for(int i = 0; i<numCellsY; i++) {
             ostringstream w;
             for(int j=0; j<numCellsX; j++) {
@@ -159,17 +159,17 @@ void MatrixEncoder::mapPrintLoop(double frequency) {
                 }
             }
             if((i%2) == 0) {
-                ROS_INFO(w.str().c_str());
+       //         ROS_INFO(w.str().c_str());
             }
-      }
-      ROS_INFO("Current number of obstacles: %d", sumObstacles);
+      }*/
+      //ROS_INFO("Current number of obstacles: %d", sumObstacles);
      //ros::spinOnce();
 
       double RobotPoseX;
-    double RobotPoseY;
-    double RobotPoseTheta;
-    double yaw,pitch,roll;
-       if (!encoder_costmap_ros->getRobotPose(robotPose)) {
+      double RobotPoseY;
+      double RobotPoseTheta;
+      double yaw,pitch,roll;
+      if (!encoder_costmap_ros->getRobotPose(robotPose)) {
          ROS_ERROR("Could not get robot pose!");
        }
        tf::Quaternion q;
@@ -222,14 +222,21 @@ void MatrixEncoder::mapPrintLoop(double frequency) {
       } else {
           theta = (unsigned short) (yaw*180.0/3.1415926);
       }
-      msgGUIData.data.push_back((unsigned char) (theta & 0xFF00) >> 8);
+      ROS_INFO("theta = %d",theta);
+      msgGUIData.data.push_back((unsigned char)( (theta & 0xFF00) >> 8));
       msgGUIData.data.push_back((unsigned char) theta & 0x00FF);
 
 
       // Filling in the data
-      for(int i = 0; i < numCellsX*numCellsY; i++){
-        msgGUIData.data.push_back(charArray[i]);
-      }
+
+        for(int i = 0; i<numCellsY; i++) {
+            for(int j=0; j<numCellsX; j++) {
+                msgGUIData.data.push_back(charArray[(numCellsY - i - 1)*numCellsX + j]);
+            }
+        }
+//      for(int i = 0; i < numCellsX*numCellsY; i++){
+  //      msgGUIData.data.push_back(charArray[i]);
+    //  }
 
       // Publish the message
       guidata_pub.publish(msgGUIData);
