@@ -22,9 +22,11 @@ namespace matrix_encoder {
          boost::thread* map_print_thread_; // thread for printing map data
          boost::thread* heading_print_thread;
          ros::Publisher obstacledata_pub; // Publisher object for publishing obstacle data
-         unsigned short count; // Variable for debugging topic publishing
+         ros::Publisher guidata_pub; // Publisher object for publishing obstacle data
          std_msgs::UInt16 msg; // Message object for publishing obstacle data
+         std_msgs::UInt8MultiArray msgGUIData; // Message object for publishing data to gui
          void mapPrintLoop(double frequency);
+         unsigned short count; // Variable for debugging topic publishing
          void headingPrintLoop(double frequency);
 
    };
