@@ -42,7 +42,7 @@ def callback(new_data):
     global updated
 
     if lock.acquire(1):
-        rospy.loginfo(rospy.get_name() + "Got data"))
+        rospy.loginfo(rospy.get_name() + "Got data")
         data = [ord(x) for x in new_data.data]
         width = data.pop(0)
         height = data.pop(0)
