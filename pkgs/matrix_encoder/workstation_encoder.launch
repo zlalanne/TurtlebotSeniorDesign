@@ -1,6 +1,8 @@
 <launch>
 
-  <include file="$(find arduino_comm)/arduino.launch" />
+  <node pkg="arduino_comm" type="arduino_comm.py" name="arduino"/>
+
+  <node pkg="obstacle_gui" type="obstacle_gui.py" name="gui"/>
 
   <include file="$(find matrix_encoder)/config/joystick_teleop.launch" />
 
