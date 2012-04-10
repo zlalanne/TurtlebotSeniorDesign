@@ -25,7 +25,7 @@ updated = False
 def gui():
     global w
     rospy.init_node('obstacle_gui', anonymous=True)
-    rospy.Subscriber('guidata', UInt8MultiArray, callback)
+    rospy.Subscriber('guidata', UInt8MultiArray, callback, queue_size=1, buff_size=10000)
     master = Tk()
     
     w = Canvas(master)
@@ -42,7 +42,6 @@ def callback(new_data):
     global updated
 
     if lock.acquire(1):
-        rospy.loginfo(rospy.get_name() + "Got data")
         data = [ord(x) for x in new_data.data]
         width = data.pop(0)
         height = data.pop(0)
@@ -70,14 +69,26 @@ def change():
                 for y in range(0, height):
                     for x in range(0, width):
                         value = data[y*width+x]
-                        value = "#%02X%02X00" % (value, 255-value)
-                        circles.append(w.create_rectangle(x*SIZE, y*SIZE, (x+1)*SIZE, (y+1)*SIZE, fill=value, outline=value))
+                        if value == 255:
+                            value = 'black'
+                        else:
+                            value = "#%02X%02X00" % (value, 254-value)
+                        circles.append(w.create_rectangle(x*SIZE, y*SIZE, (x+1)*SIZE, (y+1)*SIZE, fill=value, outline='white'))
             else:
                 for y in range(0, height):
                     for x in range(0, width):
-                        value = data[y*width+x]
-                        value = "#%02X%02X00" % (value, 255-value)
-                        w.itemconfig(circles[y*width+x], fill=value, outline=value)
+                        try:
+                            value = data[y*width+x]
+                        except IndexError:
+                            print "Data Error: " + str(y*width+x)
+                        if value == 255:
+                            value = 'black'
+                        else:
+                            value = "#%02X%02X00" % (value, 254-value)
+                        try:
+                            w.itemconfig(circles[y*width+x], fill=value, outline='white')
+                        except IndexError:
+                            print "RectConfig Error: " + str(y*width+x);
             centerX = width*SIZE/2
             centerY = height*SIZE/2
             x0 = centerX + ROBOT_HEIGHT*math.cos(theta);
