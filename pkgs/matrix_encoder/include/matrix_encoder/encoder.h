@@ -28,7 +28,7 @@ namespace matrix_encoder {
          void mapPrintLoop(double frequency);
          unsigned short count; // Variable for debugging topic publishing
          void headingPrintLoop(double frequency);
-
+         void RotateAroundRobot(const unsigned char *, unsigned char *, int, int, int, int, double);
    };
 };
 

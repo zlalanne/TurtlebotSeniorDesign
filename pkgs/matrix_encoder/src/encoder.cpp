@@ -74,10 +74,10 @@ namespace matrix_encoder {
     ROS_INFO("Size of map in meters is %d X %d", sizeX, sizeY);
 
     // Creating publisher object that publishes UInt16 on obstacledata topic
-    obstacledata_pub = nh.advertise<std_msgs::UInt16>("obstacledata",1000);
+    obstacledata_pub = nh.advertise<std_msgs::UInt16>("obstacledata",1);
     
     // Creating publisher object that publishes UInt8MultiArray on guidata topic
-    guidata_pub = nh.advertise<std_msgs::UInt8MultiArray>("guidata",1000);
+    guidata_pub = nh.advertise<std_msgs::UInt8MultiArray>("guidata",1);
     
     count = 0;  
     
@@ -119,7 +119,7 @@ void MatrixEncoder::mapPrintLoop(double frequency) {
     ros::NodeHandle nh;
     ros::Rate r(frequency);
     while(nh.ok()) {
-        ROS_INFO("print loop running");
+        //ROS_INFO("print loop running");
         encoder_costmap_ros->updateMap(); // force map update
         //encoder_costmap_ros->getCostmapCopy(costmap);
       
@@ -180,9 +180,9 @@ void MatrixEncoder::mapPrintLoop(double frequency) {
        RobotPoseX = numCellsX / 2;
        RobotPoseY = numCellsY / 2;
        RobotPoseTheta = yaw;
-      ROS_INFO("X Coordinate: %g, Y Coordinate: %g, Theta: %g", RobotPoseX, RobotPoseY, yaw*180.0/3.1415926);
+      //ROS_INFO("X Coordinate: %g, Y Coordinate: %g, Theta: %g", RobotPoseX, RobotPoseY, yaw*180.0/3.1415926);
 
-       unsigned char rotatedArray[16];
+       unsigned char rotatedArray[16]= {0,};
 
        RotateAroundRobot(charArray, rotatedArray, numCellsX, numCellsY, (int) RobotPoseX, (int) RobotPoseY, RobotPoseTheta);
       
@@ -192,9 +192,8 @@ void MatrixEncoder::mapPrintLoop(double frequency) {
             data |= (0x01 << i);
           }
         }*/
-
       int index = 0;
-      for(int i=3; i>=0; i--) {
+      for(int i=0; i<4; i++) {
         for(int j=0; j<4; j++) {
             if(rotatedArray[i*4+j] != 254) {
                 data |= (0x01 << index);
@@ -222,7 +221,7 @@ void MatrixEncoder::mapPrintLoop(double frequency) {
       } else {
           theta = (unsigned short) (yaw*180.0/3.1415926);
       }
-      ROS_INFO("theta = %d",theta);
+      //ROS_INFO("theta = %d",theta);
       msgGUIData.data.push_back((unsigned char)( (theta & 0xFF00) >> 8));
       msgGUIData.data.push_back((unsigned char) theta & 0x00FF);
 
@@ -234,9 +233,9 @@ void MatrixEncoder::mapPrintLoop(double frequency) {
                 msgGUIData.data.push_back(charArray[(numCellsY - i - 1)*numCellsX + j]);
             }
         }
-//      for(int i = 0; i < numCellsX*numCellsY; i++){
-  //      msgGUIData.data.push_back(charArray[i]);
-    //  }
+      //for(int i = 0; i < numCellsX*numCellsY; i++){
+        //msgGUIData.data.push_back(charArray[i]);
+      //}
 
       // Publish the message
       guidata_pub.publish(msgGUIData);
@@ -244,6 +243,132 @@ void MatrixEncoder::mapPrintLoop(double frequency) {
       r.sleep();
     }
   }  
+    //rotated array needs to be dimensions of 4x4
+    //unit test - 10x10 map, subset 81x81 around robot
+    //253 = inflated obstacles, 254 = lethal, 255 = no info, 0 = free space
+    void MatrixEncoder::RotateAroundRobot(const unsigned char* charArray, unsigned char* rotatedArray, int numx, int numy, int robotx, int roboty, double robotangle){
+            //set robot as 0,0 by doing x - robot for x values and robot - y for y values
+            //if robot is 4,5 then 0,0 is actually -4,5
+            //              7,6 is actually 3,-1
+            //double robotangle = 0.0;
+            //int robotx = 2;
+            //int roboty = 3;
+            //cout << robotangle << endl;
+            //int numx = 10;
+            //int numy = 10;
+            //unsigned char rotatedArray[16] = {};
+            /*unsigned char charArray[100] = {255,255,255,255,255,0,0,0,0,0,
+                                            254,254,254,254,254,0,0,0,0,0,
+                                            253,253,253,253,253,0,0,0,0,0,
+                                            252,252,252,252,252,0,0,0,0,0,
+                                            251,251,251,251,251,0,0,0,0,0,
+                                            250,250,250,250,250,0,0,0,0,0,
+                                            249,249,249,249,249,0,0,0,0,0,
+                                            0,0,0,0,0,0,0,0,0,0,
+                                            0,0,0,0,0,0,0,0,0,0,
+                                            0,0,0,0,0,0,0,0,0,0};*/
+            unsigned char subsetArray[81][81];
+            unsigned char tempArray[115][115];
+            //initialize subset array
+            for(int i = 0; i < 81*81; ++i)
+                    subsetArray[i/81][i%81] = 255;
+            for(int i = 0; i < 115*115; ++i)
+                    tempArray[i/115][i%115] = 255;
+
+            //using 2 because of 5x5
+            for(int r = roboty - ((81-1)/2); (r < numy) && (r <= roboty + ((81-1)/2)); r++)
+            {
+                    for(int c = robotx - ((81-1)/2); (c < numx) && (c <= robotx + ((81-1)/2)); c++)
+                    {
+                            //cout << "r = " << r << "  c = " << c << endl;
+                            if( (r < 0) || (c < 0) || (r > numy - 1) || (c > numx - 1) )
+                                    continue;
+                            //cout << "-- r = " << r - (roboty - 2) << "  c = " << c - (robotx - 2) << endl;
+                            subsetArray[r - (roboty - ((81-1)/2))][c - (robotx - ((81-1)/2))] = charArray[(numy-r-1)*numx + c];
+                    }
+            }
+            //cout << "subsetDone" << endl;
+            //radians. rotate to 90 degrees
+            //double angle =  -1.57079 + (robotangle % (2*3.14159));
+            double angle = robotangle - 1.57079;
+            //double angle = 1.57079 - robotangle; 
+            //cout << angle << endl;
+            for(int i = 0; i < 81*81; ++i)
+            {
+                    float x = i%81; //0 to 4
+                    float y = i/81; //0 to 4, need to map to -2 to 2
+                    x = x-((81-1)/2);
+                    y = y-((81-1)/2);
+
+                    float newy = x*sin(angle) + y*cos(angle); //-4 to 4
+                    float newx = x*cos(angle) - y*sin(angle); //-4 to 4
+                    newy = newy + ((115-1)/2);
+                    newx = newx + ((115-1)/2);
+                    //cout << "sin = " << sin(angle) << "  cos = " << cos(angle) << endl;
+                    //cout << "newy = " << newy << "  newx = " << newx << endl;
+                    tempArray[(int)round(newy)][(int)round(newx)] = subsetArray[i/81][i%81];
+            }
+    /*        cout << "rotate done" << endl;
+            for(int i = 0; i < 115*115; ++i){
+                    if(i % 115 == 0)
+                            cout << endl;
+                    char things = tempArray[i/115][i%115] + '0' + 7;
+                    cout << things;
+            }
+            cout << endl;
+    */
+
+            //msgGUIData.data.clear();
+
+            //msgGUIData.data.push_back(115);
+            //msgGUIData.data.push_back(115);
+            //msgGUIData.data.push_back(0);
+            //msgGUIData.data.push_back(90);
+            
+            //for(int i=0; i<115; ++i) {
+                //for(int j=0; j<115; ++j) {
+                    //msgGUIData.data.push_back(tempArray[i][j]);
+                //}   
+            //}
+
+            //guidata_pub.publish(msgGUIData);
+
+            int tnumx = 115;
+                             
+            float i_tnumx = 115.0/4; //dont change 4
+            int cut;
+            if(i_tnumx - (int)(115.0/4) >= 0.5)
+                    cut = (tnumx + 2)/4;
+            else
+                    cut = tnumx/4;
+            for(int i = 0; i < 4*cut; i += cut){
+                    for(int j = 0; j < 4*cut; j+= cut){
+                            int count = 0;
+                            for(int k = i; k < i+cut; ++k){
+                                    for(int m = j; m < j+cut; ++m){
+                                            if(m >= tnumx || k >= tnumx)
+                                                    continue;
+                                            if(tempArray[k][m] == 254){
+    //                                                cout << "k, m " << k << ", " << m << "  " << (i/cut)*4 + (j/cut) << endl;
+                                                      count++;
+                                            }
+                                    }
+                            }
+                            if(count > (20))
+                                    rotatedArray[(i/cut)*4 + (j/cut)] = 254;
+                    }
+            }
+    /*        for(int i = 0; i < 16; ++i){
+                    char things = rotatedArray[i] + '0' + 7;
+                    cout << things;
+                    if(i == 3 || i == 7 || i == 11 || i == 15)
+                            cout << endl;
+            }
+    */
+        return;
+    }
+
+
 
 }
 
@@ -263,111 +388,4 @@ int main(int argc, char **argv)
 
   return 0;
 }
-//rotated array needs to be dimensions of 4x4
-//unit test - 10x10 map, subset 81x81 around robot
-//253 = inflated obstacles, 254 = lethal, 255 = no info, 0 = free space
-void matrix_encoder::RotateAroundRobot(const unsigned char* charArray, unsigned char* rotatedArray, int numx, int numy, int robotx, int roboty, double robotangle){
-        //set robot as 0,0 by doing x - robot for x values and robot - y for y values
-        //if robot is 4,5 then 0,0 is actually -4,5
-        //              7,6 is actually 3,-1
-        //double robotangle = 0.0;
-        //int robotx = 2;
-        //int roboty = 3;
-        //cout << robotangle << endl;
-        //int numx = 10;
-        //int numy = 10;
-        //unsigned char rotatedArray[16] = {};
-        /*unsigned char charArray[100] = {255,255,255,255,255,0,0,0,0,0,
-                                        254,254,254,254,254,0,0,0,0,0,
-                                        253,253,253,253,253,0,0,0,0,0,
-                                        252,252,252,252,252,0,0,0,0,0,
-                                        251,251,251,251,251,0,0,0,0,0,
-                                        250,250,250,250,250,0,0,0,0,0,
-                                        249,249,249,249,249,0,0,0,0,0,
-                                        0,0,0,0,0,0,0,0,0,0,
-                                        0,0,0,0,0,0,0,0,0,0,
-                                        0,0,0,0,0,0,0,0,0,0};*/
-        unsigned char subsetArray[81][81];
-        unsigned char tempArray[115][115];
-        //initialize subset array
-        for(int i = 0; i < 81*81; ++i)
-                subsetArray[i/81][i%81] = 255;
-        for(int i = 0; i < 115*115; ++i)
-                tempArray[i/115][i%115] = 255;
-
-        //using 2 because of 5x5
-        for(int r = roboty - ((81-1)/2); (r < numy) && (r <= roboty + ((81-1)/2)); r++)
-        {
-                for(int c = robotx - ((81-1)/2); (c < numx) && (c <= robotx + ((81-1)/2)); c++)
-                {
-                        //cout << "r = " << r << "  c = " << c << endl;
-                        if( (r < 0) || (c < 0) || (r > numy - 1) || (c > numx - 1) )
-                                continue;
-                        //cout << "-- r = " << r - (roboty - 2) << "  c = " << c - (robotx - 2) << endl;
-                        subsetArray[r - (roboty - ((81-1)/2))][c - (robotx - ((81-1)/2))] = charArray[r*numx + c];
-                }
-        }
-        //cout << "subsetDone" << endl;
-        //radians. rotate to 90 degrees
-        double angle =  -1.57079 + robotangle;
-        //cout << angle << endl;
-        for(int i = 0; i < 81*81; ++i)
-        {
-                float x = i%81; //0 to 4
-                float y = i/81; //0 to 4, need to map to -2 to 2
-                x = x-((81-1)/2);
-                y = y-((81-1)/2);
-
-                float newy = x*sin(angle) + y*cos(angle); //-4 to 4
-                float newx = x*cos(angle) - y*sin(angle); //-4 to 4
-                newy = newy + ((115-1)/2);
-                newx = newx + ((115-1)/2);
-                //cout << "sin = " << sin(angle) << "  cos = " << cos(angle) << endl;
-                //cout << "newy = " << newy << "  newx = " << newx << endl;
-                tempArray[(int)round(newy)][(int)round(newx)] = subsetArray[i/81][i%81];
-        }
-/*        cout << "rotate done" << endl;
-        for(int i = 0; i < 115*115; ++i){
-                if(i % 115 == 0)
-                        cout << endl;
-                char things = tempArray[i/115][i%115] + '0' + 7;
-                cout << things;
-        }
-        cout << endl;
-*/
-        int tnumx = 115;
-                         
-        float i_tnumx = 115.0/4; //dont change 4
-        int cut;
-        if(i_tnumx - (int)(115.0/4) >= 0.5)
-                cut = (tnumx + 2)/4;
-        else
-                cut = tnumx/4;
-        for(int i = 0; i < 4*cut; i += cut){
-                for(int j = 0; j < 4*cut; j+= cut){
-                        int count = 0;
-                        for(int k = i; k < i+cut; ++k){
-                                for(int m = j; m < j+cut; ++m){
-                                        if(m >= tnumx || k >= tnumx)
-                                                continue;
-                                        if(tempArray[k][m] == 254){
-//                                                cout << "k, m " << k << ", " << m << "  " << (i/cut)*4 + (j/cut) << endl;
-                                                  count++;
-                                        }
-                                }
-                        }
-                        if(count > (40))
-                                rotatedArray[(i/cut)*4 + (j/cut)] = 254;
-                }
-        }
-/*        for(int i = 0; i < 16; ++i){
-                char things = rotatedArray[i] + '0' + 7;
-                cout << things;
-                if(i == 3 || i == 7 || i == 11 || i == 15)
-                        cout << endl;
-        }
-*/
-	return;
-}
-
 
