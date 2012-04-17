@@ -1,0 +1,17 @@
+<package>
+  <description brief="med_gui">
+
+     med_gui
+
+  </description>
+  <author>Razik</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/med_gui</url>
+  <depend package="std_msgs"/>
+  <depend package="rospy"/>
+  <depend package="roscpp"/>
+
+</package>
+
+
