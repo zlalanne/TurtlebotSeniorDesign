@@ -2,11 +2,15 @@
 #include "std_msgs/String.h"
 #include "std_msgs/UInt16.h"
 #include "std_msgs/UInt8MultiArray.h"
+#include "std_msgs/Float32MultiArray.h"
 #include "matrix_encoder/encoder.h"
 #include "costmap_2d/costmap_2d_ros.h"
 #include <iostream>
 #include <fstream>
 #include <unistd.h>
+
+#define GOALX -0.92078
+#define GOALY -1.37236
 
 using namespace std;
 
@@ -78,42 +82,64 @@ namespace matrix_encoder {
     
     // Creating publisher object that publishes UInt8MultiArray on guidata topic
     guidata_pub = nh.advertise<std_msgs::UInt8MultiArray>("guidata",1);
+    virtualguidata_pub = nh.advertise<std_msgs::UInt8MultiArray>("virtualguidata",1);
     
+    coordinates_pub = nh.advertise<std_msgs::Float32MultiArray>("robotpos",1);
     count = 0;  
     
     double map_print_frequency = 4;  // hopefully this will make the thread run every 10 seconds?
     map_print_thread_ = new boost::thread(boost::bind(&matrix_encoder::MatrixEncoder::mapPrintLoop, this, map_print_frequency));
-    // GOING TO TRY ADDING A PERIODIC THREAD THAT WILL PRINT COSTMAP DATA
-    double heading_print_frequency = 1;
-    // heading_print_thread = new boost::thread(boost::bind(&matrix_encoder::MatrixEncoder::headingPrintLoop, this, heading_print_frequency));
+    double heading_print_frequency = 2;
+    heading_print_thread = new boost::thread(boost::bind(&matrix_encoder::MatrixEncoder::headingPrintLoop, this, heading_print_frequency));
   }
 
   void MatrixEncoder::headingPrintLoop(double frequency) {
     ros::NodeHandle nh;
     ros::Rate r(frequency);
-    double RobotPoseX;
-    double RobotPoseY;
-    double RobotPoseTheta;
-    double yaw,pitch,roll;
+    
     while(nh.ok()) {
 
-       if (!encoder_costmap_ros->getRobotPose(robotPose)) {
-         ROS_ERROR("Could not get robot pose!");
-       }
-       tf::Quaternion q;
-       q = robotPose.getRotation();
-       btMatrix3x3(q).getEulerYPR(yaw,pitch,roll);
-       RobotPoseX = robotPose.getOrigin().x();
-       RobotPoseY = robotPose.getOrigin().y();
-       RobotPoseTheta = -yaw;
+        geometry_msgs::PoseStamped pBase, pMap;
+        pBase.header.frame_id = "base_link";
+        pBase.pose.position.x = 0.0;
+        pBase.pose.position.y = 0.0;
+        pBase.pose.orientation = tf::createQuaternionMsgFromYaw(0.0);
+        ros::Time current_transform = ros::Time::now();
+        tf_.getLatestCommonTime(pBase.header.frame_id, "map", current_transform, NULL);
+        pBase.header.stamp = current_transform;
+       
+        // PMap now contains the pose of the robot transformed into map 
+        // Coordinates according to the TF data available at time "current_transform"
+        tf_.transformPose("map", pBase, pMap);
+        
 
-       ROS_WARN("Robot's pose is x: %g  y: %g theta: %g", RobotPoseX, RobotPoseY, RobotPoseTheta);
+       float yaw = tf::getYaw(pMap.pose.orientation);
+      
+     //ROS_DEBUG("Robot's pose is x: %g, y: %g, theta: %g", pMap.pose.position.x, pMap.pose.position.y, yaw);
+       
+      float theta;
+      if((yaw*180.0/3.1415926) < 0){
+          theta = 360.0 + ((yaw*180.0)/3.1415926);
+      } else {
+          theta = (yaw*180.0)/3.1415926;
+      }
 
+      // Adding the data to the array      
+      robotPosData.data.clear();
+      robotPosData.data.push_back( pMap.pose.position.x);
+      robotPosData.data.push_back( pMap.pose.position.y);
+      robotPosData.data.push_back( theta);
+      robotPosData.data.push_back( GOALX);
+      robotPosData.data.push_back( GOALY);
+      
+      // Publish the message
+      coordinates_pub.publish(robotPosData);
        r.sleep();
     }
   }
-
+  
 void RotateAroundRobot(const unsigned char* charArray, unsigned char* rotatedArray, int numx, int numy, int robotx, int roboty, double robotangle); 
+
 void MatrixEncoder::mapPrintLoop(double frequency) {
     // this loop should print out some version of the costmap data
     ros::NodeHandle nh;
@@ -183,7 +209,6 @@ void MatrixEncoder::mapPrintLoop(double frequency) {
       //ROS_INFO("X Coordinate: %g, Y Coordinate: %g, Theta: %g", RobotPoseX, RobotPoseY, yaw*180.0/3.1415926);
 
        unsigned char rotatedArray[16]= {0,};
-
        RotateAroundRobot(charArray, rotatedArray, numCellsX, numCellsY, (int) RobotPoseX, (int) RobotPoseY, RobotPoseTheta);
       
       unsigned short data = 0;
@@ -358,6 +383,43 @@ void MatrixEncoder::mapPrintLoop(double frequency) {
                                     rotatedArray[(i/cut)*4 + (j/cut)] = 254;
                     }
             }
+            unsigned char rotated23Array[23*23] = {0,};
+            i_tnumx = 115.0/23; //dont change 4
+            if(i_tnumx - (int)(115.0/23) >= 0.5)
+                    cut = tnumx/23 + 1;
+            else
+                    cut = tnumx/23;
+            for(int i = 0; i < 23*cut; i += cut){
+                    for(int j = 0; j < 23*cut; j+= cut){
+                            int count = 0;
+                            for(int k = i; k < i+cut; ++k){
+                                    for(int m = j; m < j+cut; ++m){
+                                            if(m >= tnumx || k >= tnumx)
+                                                    continue;
+                                            if(tempArray[k][m] <= 254 && tempArray[k][m] >= 245){
+    //                                                cout << "k, m " << k << ", " << m << "  " << (i/cut)*4 + (j/cut) << endl;
+                                                      count++;
+                                            }
+                                    }
+                            }
+                            if(count > (5))
+                                    rotated23Array[(i/cut)*23 + (j/cut)] = 254;
+                    }
+            }
+            msgvirtualGUIData.data.clear();
+
+            msgvirtualGUIData.data.push_back(23);
+            msgvirtualGUIData.data.push_back(23);
+            msgvirtualGUIData.data.push_back(0);
+            msgvirtualGUIData.data.push_back(90);
+            
+            for(int i=0; i<23; ++i) {
+                for(int j=0; j<23; ++j) {
+                    msgvirtualGUIData.data.push_back(rotated23Array[i*23 + j]);
+                }   
+            }
+            virtualguidata_pub.publish(msgvirtualGUIData);
+
     /*        for(int i = 0; i < 16; ++i){
                     char things = rotatedArray[i] + '0' + 7;
                     cout << things;
@@ -368,8 +430,234 @@ void MatrixEncoder::mapPrintLoop(double frequency) {
         return;
     }
 
+    //RotatedArray is 4x4 and the heading is parallel to the negative diagonal
+    void MatrixEncoder::RotateAroundRobot2(const unsigned char* charArray, unsigned char* rotatedArray, int numx, int numy, int robotx, int roboty, double robotangle){
+            //set robot as 0,0 by doing x - robot for x values and robot - y for y values
+            //if robot is 4,5 then 0,0 is actually -4,5
+            //              7,6 is actually 3,-1
+            //double robotangle = 0.0;
+            //int robotx = 2;
+            //int roboty = 3;
+            //cout << robotangle << endl;
+            //int numx = 10;
+            //int numy = 10;
+            //unsigned char rotatedArray[16] = {};
+            /*unsigned char charArray[100] = {255,255,255,255,255,0,0,0,0,0,
+                                            254,254,254,254,254,0,0,0,0,0,
+                                            253,253,253,253,253,0,0,0,0,0,
+                                            252,252,252,252,252,0,0,0,0,0,
+                                            251,251,251,251,251,0,0,0,0,0,
+                                            250,250,250,250,250,0,0,0,0,0,
+                                            249,249,249,249,249,0,0,0,0,0,
+                                            0,0,0,0,0,0,0,0,0,0,
+                                            0,0,0,0,0,0,0,0,0,0,
+                                            0,0,0,0,0,0,0,0,0,0};*/
+            unsigned char subsetArray[81][81];
+            unsigned char tempArray[115][115];
+            //initialize subset array
+            for(int i = 0; i < 81*81; ++i)
+                    subsetArray[i/81][i%81] = 255;
+            for(int i = 0; i < 115*115; ++i)
+                    tempArray[i/115][i%115] = 255;
 
+            //using 10 30 50 70
+            //robot at 50 50 
+            for(int r = roboty - (50); (r < numy) && (r <= roboty + (30)); r++)
+            {
+                    for(int c = robotx - (50); (c < numx) && (c <= robotx + (30)); c++)
+                    {
+                            //cout << "r = " << r << "  c = " << c << endl;
+                            if( (r < 0) || (c < 0) || (r > numy - 1) || (c > numx - 1) )
+                                    continue;
+                            //cout << "-- r = " << r - (roboty - 2) << "  c = " << c - (robotx - 2) << endl;
+                            subsetArray[r - (roboty - (50))][c - (robotx - (50))] = charArray[(numy-r-1)*numx + c];
+                    }
+            }
+            //cout << "subsetDone" << endl;
+            //radians. rotate to 90 degrees
+            //double angle = robotangle - 1.57079;
+            double angle = robotangle - (3.14159265*3/4);
+            //cout << angle << endl;
+            for(int i = 0; i < 81*81; ++i)
+            {
+                    float x = i%81; //0 to 4
+                    float y = i/81; //0 to 4, need to map to -2 to 2
+                    x = x-((81-1)/2);
+                    y = y-((81-1)/2);
 
+                    float newy = x*sin(angle) + y*cos(angle); //-4 to 4
+                    float newx = x*cos(angle) - y*sin(angle); //-4 to 4
+                    newy = newy + ((115-1)/2);
+                    newx = newx + ((115-1)/2);
+                    //cout << "sin = " << sin(angle) << "  cos = " << cos(angle) << endl;
+                    //cout << "newy = " << newy << "  newx = " << newx << endl;
+                    tempArray[(int)round(newy)][(int)round(newx)] = subsetArray[i/81][i%81];
+            }
+    /*        cout << "rotate done" << endl;
+            for(int i = 0; i < 115*115; ++i){
+                    if(i % 115 == 0)
+                            cout << endl;
+                    char things = tempArray[i/115][i%115] + '0' + 7;
+                    cout << things;
+            }
+            cout << endl;
+    */
+
+            //msgGUIData.data.clear();
+
+            //msgGUIData.data.push_back(115);
+            //msgGUIData.data.push_back(115);
+            //msgGUIData.data.push_back(0);
+            //msgGUIData.data.push_back(90);
+            
+            //for(int i=0; i<115; ++i) {
+                //for(int j=0; j<115; ++j) {
+                    //msgGUIData.data.push_back(tempArray[i][j]);
+                //}   
+            //}
+
+            //guidata_pub.publish(msgGUIData);
+
+            int tnumx = 115;
+                             
+            float i_tnumx = 115.0/4; //dont change 4
+            int cut;
+            if(i_tnumx - (int)(115.0/4) >= 0.5)
+                    cut = (tnumx + 2)/4;
+            else
+                    cut = tnumx/4;
+            for(int i = 0; i < 4*cut; i += cut){
+                    for(int j = 0; j < 4*cut; j+= cut){
+                            int count = 0;
+                            for(int k = i; k < i+cut; ++k){
+                                    for(int m = j; m < j+cut; ++m){
+                                            if(m >= tnumx || k >= tnumx)
+                                                    continue;
+                                            if(tempArray[k][m] == 254){
+    //                                                cout << "k, m " << k << ", " << m << "  " << (i/cut)*4 + (j/cut) << endl;
+                                                      count++;
+                                            }
+                                    }
+                            }
+                            if(count > (20))
+                                    rotatedArray[(i/cut)*4 + (j/cut)] = 254;
+                    }
+            }
+    /*        for(int i = 0; i < 16; ++i){
+                    char things = rotatedArray[i] + '0' + 7;
+                    cout << things;
+                    if(i == 3 || i == 7 || i == 11 || i == 15)
+                            cout << endl;
+            }
+    */
+        return;
+    }
+
+    //Rotated array is 23x23 unstead of 4x4. Heading is parallel to edges
+    void MatrixEncoder::RotateAroundRobot3(const unsigned char* charArray, unsigned char* rotatedArray, int numx, int numy, int robotx, int roboty, double robotangle){
+            //set robot as 0,0 by doing x - robot for x values and robot - y for y values
+            //if robot is 4,5 then 0,0 is actually -4,5
+            //              7,6 is actually 3,-1
+            unsigned char subsetArray[81][81];
+            unsigned char tempArray[115][115];
+            //initialize subset array
+            for(int i = 0; i < 81*81; ++i)
+                    subsetArray[i/81][i%81] = 255;
+            for(int i = 0; i < 115*115; ++i)
+                    tempArray[i/115][i%115] = 255;
+
+            //using 10 30 50 70
+            //robot at 50 50 
+            for(int r = roboty - (50); (r < numy) && (r <= roboty + (30)); r++)
+            {
+                    for(int c = robotx - (50); (c < numx) && (c <= robotx + (30)); c++)
+                    {
+                            //cout << "r = " << r << "  c = " << c << endl;
+                            if( (r < 0) || (c < 0) || (r > numy - 1) || (c > numx - 1) )
+                                    continue;
+                            //cout << "-- r = " << r - (roboty - 2) << "  c = " << c - (robotx - 2) << endl;
+                            subsetArray[r - (roboty - (50))][c - (robotx - (50))] = charArray[(numy-r-1)*numx + c];
+                    }
+            }
+            //cout << "subsetDone" << endl;
+            //radians. rotate to 90 degrees
+            //double angle = robotangle - 1.57079;
+            double angle = robotangle - (3.14159265*3/4);
+            //cout << angle << endl;
+            for(int i = 0; i < 81*81; ++i)
+            {
+                    float x = i%81; //0 to 4
+                    float y = i/81; //0 to 4, need to map to -2 to 2
+                    x = x-((81-1)/2);
+                    y = y-((81-1)/2);
+
+                    float newy = x*sin(angle) + y*cos(angle); //-4 to 4
+                    float newx = x*cos(angle) - y*sin(angle); //-4 to 4
+                    newy = newy + ((115-1)/2);
+                    newx = newx + ((115-1)/2);
+                    //cout << "sin = " << sin(angle) << "  cos = " << cos(angle) << endl;
+                    //cout << "newy = " << newy << "  newx = " << newx << endl;
+                    tempArray[(int)round(newy)][(int)round(newx)] = subsetArray[i/81][i%81];
+            }
+    /*        cout << "rotate done" << endl;
+            for(int i = 0; i < 115*115; ++i){
+                    if(i % 115 == 0)
+                            cout << endl;
+                    char things = tempArray[i/115][i%115] + '0' + 7;
+                    cout << things;
+            }
+            cout << endl;
+    */
+
+            //msgGUIData.data.clear();
+
+            //msgGUIData.data.push_back(115);
+            //msgGUIData.data.push_back(115);
+            //msgGUIData.data.push_back(0);
+            //msgGUIData.data.push_back(90);
+            
+            //for(int i=0; i<115; ++i) {
+                //for(int j=0; j<115; ++j) {
+                    //msgGUIData.data.push_back(tempArray[i][j]);
+                //}   
+            //}
+
+            //guidata_pub.publish(msgGUIData);
+
+            int tnumx = 115;
+                             
+            float i_tnumx = 115.0/23; //dont change 23
+            int cut;
+            if(i_tnumx - (int)(115.0/23) >= 0.5)
+                    cut = tnumx/23 + 1;
+            else
+                    cut = tnumx/23;
+            for(int i = 0; i < 23*cut; i += cut){
+                    for(int j = 0; j < 23*cut; j+= cut){
+                            int count = 0;
+                            for(int k = i; k < i+cut; ++k){
+                                    for(int m = j; m < j+cut; ++m){
+                                            if(m >= tnumx || k >= tnumx)
+                                                    continue;
+                                            if(tempArray[k][m] == 254){
+    //                                                cout << "k, m " << k << ", " << m << "  " << (i/cut)*4 + (j/cut) << endl;
+                                                      count++;
+                                            }
+                                    }
+                            }
+                            if(count > (5))
+                                    rotatedArray[(i/cut)*23 + (j/cut)] = 254;
+                    }
+            }
+    /*        for(int i = 0; i < 16; ++i){
+                    char things = rotatedArray[i] + '0' + 7;
+                    cout << things;
+                    if(i == 3 || i == 7 || i == 11 || i == 15)
+                            cout << endl;
+            }
+    */
+        return;
+    }
 }
 
 
