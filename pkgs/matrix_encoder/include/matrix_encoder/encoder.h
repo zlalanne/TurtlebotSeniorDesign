@@ -23,12 +23,18 @@ namespace matrix_encoder {
          boost::thread* heading_print_thread;
          ros::Publisher obstacledata_pub; // Publisher object for publishing obstacle data
          ros::Publisher guidata_pub; // Publisher object for publishing obstacle data
+         ros::Publisher virtualguidata_pub; // Publisher object for publishing obstacle data
+         ros::Publisher coordinates_pub; // Publisher object for publishing obstacle data
          std_msgs::UInt16 msg; // Message object for publishing obstacle data
          std_msgs::UInt8MultiArray msgGUIData; // Message object for publishing data to gui
+         std_msgs::UInt8MultiArray msgvirtualGUIData; // Message object for publishing data to gui
+         std_msgs::Float32MultiArray robotPosData; // Message object for publishing data to gui
          void mapPrintLoop(double frequency);
          unsigned short count; // Variable for debugging topic publishing
          void headingPrintLoop(double frequency);
          void RotateAroundRobot(const unsigned char *, unsigned char *, int, int, int, int, double);
+         void RotateAroundRobot2(const unsigned char *, unsigned char *, int, int, int, int, double);
+         void RotateAroundRobot3(const unsigned char *, unsigned char *, int, int, int, int, double);
    };
 };
 
