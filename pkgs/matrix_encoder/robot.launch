@@ -1,0 +1,25 @@
+<launch>
+  
+  <!--- Run the minimal bringup -->
+  <include file="$(find turtlebot_bringup)/minimal.launch" />
+
+  <!--- Run the kinect -->
+  <include file="$(find turtlebot_bringup)/kinect.launch" />
+
+  <!--- Run the map server -->
+  <arg name="map_file" default="$(find matrix_encoder)/config/final.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+  <!--- Run AMCL -->
+  <include file="$(find turtlebot_navigation)/config/amcl_turtlebot.launch" />
+
+  <!--- Run Move Base -->
+  <include file="$(find matrix_encoder)/config/move_base_turtlebot.launch" />
+
+  <!--- Run our encoder node -->
+  <node pkg="matrix_encoder" type="encoder" respawn="false" name="encoder" output="screen">
+    <rosparam file="$(find matrix_encoder)/config/costmap_common_params.yaml" command="load" ns="encoder_costmap" />
+    <rosparam file="$(find matrix_encoder)/config/encoder_costmap_params.yaml" command="load" /> 
+  </node>
+
+</launch>
