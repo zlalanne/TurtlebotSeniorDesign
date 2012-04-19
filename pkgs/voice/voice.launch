@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="joy" type="joy_node" name="joystick"/>
+    <node pkg="voice" type="voice" name="voice_cmds"/>
+</launch>
+

@@ -1,14 +1,13 @@
 <package>
-  <description brief="voice">
+  <description brief="large_gui">
 
-     voice
+     large_gui
 
   </description>
-  <author>Thomas Brezinski</author>
+  <author>Razik</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
-  <url>http://ros.org/wiki/voice</url>
-  <depend package="joy"/>
+  <url>http://ros.org/wiki/large_gui</url>
   <depend package="std_msgs"/>
   <depend package="rospy"/>
   <depend package="roscpp"/>
